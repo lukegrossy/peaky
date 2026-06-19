@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Peaky Stables</title>
+<style>
+  :root{
+    --ink:#18130f; --coal:#241f1b; --brass:#b88945; --gold:#d7b56d; --cream:#efe3c8;
+    --paper:#f5edda; --red:#8b2d2b; --green:#536b4f; --smoke:#6b665e;
+    --shadow:0 18px 55px rgba(0,0,0,.25);
+  }
+  *{box-sizing:border-box} body{margin:0;font-family:Georgia, 'Times New Roman', serif;background:radial-gradient(circle at top,#4b4033,#171412 55%,#0f0d0c);color:var(--cream);min-height:100vh}
+  .wrap{max-width:1220px;margin:0 auto;padding:24px}
+  header{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:end;margin-bottom:18px;border-bottom:1px solid rgba(215,181,109,.35);padding-bottom:18px}
+  h1{font-size:clamp(34px,5vw,72px);margin:0;letter-spacing:.04em;text-transform:uppercase;line-height:.9}.tag{color:var(--gold);font-style:italic;margin-top:8px}.stats{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}.stat{background:rgba(0,0,0,.32);border:1px solid rgba(215,181,109,.28);padding:10px 12px;border-radius:14px;min-width:110px}.stat b{display:block;color:#fff;font-size:20px}.stat span{font-size:12px;color:#cdbb9c;text-transform:uppercase;letter-spacing:.08em}
+  .grid{display:grid;grid-template-columns:1.25fr .85fr;gap:18px}.panel{background:linear-gradient(180deg,rgba(255,248,226,.1),rgba(0,0,0,.22));border:1px solid rgba(215,181,109,.28);box-shadow:var(--shadow);border-radius:22px;padding:18px}.panel h2{margin:0 0 12px;text-transform:uppercase;letter-spacing:.08em;font-size:18px;color:#fff}.sub{color:#cdbb9c;font-size:14px;margin-top:-6px;margin-bottom:14px}
+  .horses{display:grid;gap:12px}.horse{background:rgba(245,237,218,.08);border:1px solid rgba(239,227,200,.18);border-radius:18px;padding:14px;display:grid;grid-template-columns:1fr auto;gap:10px}.horse h3{margin:0;font-size:22px;color:#fff}.meta{font-size:13px;color:#cdbb9c;margin:4px 0 10px}.bars{display:grid;gap:6px}.bar{height:8px;background:rgba(0,0,0,.35);border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--gold));border-radius:999px}.bar.red i{background:linear-gradient(90deg,#6e2726,#d07162)}.bar.green i{background:linear-gradient(90deg,#3e573d,#93ad78)}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;align-content:start;justify-content:flex-end}button,select,input{font:inherit}button{border:0;border-radius:999px;padding:9px 13px;background:var(--brass);color:#17120e;cursor:pointer;font-weight:bold;box-shadow:0 6px 15px rgba(0,0,0,.2)}button:hover{filter:brightness(1.08)}button.ghost{background:rgba(255,255,255,.08);color:var(--cream);border:1px solid rgba(239,227,200,.22)}button.danger{background:var(--red);color:#fff}button.green{background:var(--green);color:#fff}button:disabled{opacity:.45;cursor:not-allowed}
+  .book{display:grid;gap:12px}.race{background:rgba(0,0,0,.24);border:1px solid rgba(215,181,109,.22);border-radius:18px;padding:14px}.race-title{display:flex;justify-content:space-between;gap:10px;font-weight:bold;color:#fff}.race small{color:#cdbb9c}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}select,input{background:#160f0c;color:#fff;border:1px solid rgba(215,181,109,.35);border-radius:12px;padding:9px;min-width:120px}input{width:110px}.log{max-height:330px;overflow:auto;display:grid;gap:8px;padding-right:4px}.entry{background:rgba(0,0,0,.25);border-left:4px solid var(--brass);padding:10px 12px;border-radius:10px;color:#eadcc0;font-size:14px}.entry.bad{border-color:var(--red)}.entry.good{border-color:var(--green)}.notice{background:linear-gradient(135deg,rgba(139,45,43,.35),rgba(184,137,69,.18));border:1px solid rgba(215,181,109,.28);border-radius:18px;padding:14px;margin-bottom:14px}.notice b{color:#fff}.underworld{display:grid;gap:10px}.deal{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:rgba(245,237,218,.07);border:1px solid rgba(239,227,200,.16);border-radius:16px;padding:12px}.deal p{margin:3px 0 0;color:#cdbb9c;font-size:13px}.footer{margin-top:18px;color:#b8a98c;font-size:13px;text-align:center}.pill{display:inline-block;border:1px solid rgba(215,181,109,.3);border-radius:999px;padding:4px 8px;color:#d7b56d;font-size:12px;margin-right:5px}.mobile-warning{display:none}
+  @media(max-width:850px){.grid{grid-template-columns:1fr}header{grid-template-columns:1fr}.stats{justify-content:flex-start}.horse{grid-template-columns:1fr}.actions{justify-content:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><h1>Peaky Stables</h1><div class="tag">A cheeky 1920s racing yard game. Win clean, win dirty, or get run out of town.</div></div>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <div class="grid">
+    <main class="panel">
+      <div class="notice"><b>Week <span id="weekNo">1</span>:</b> Train your horses, enter races, place fictional bets, and manage the heat from stewards and gangs. Doping boosts speed but raises scandal risk.</div>
+      <h2>Your Yard</h2>
+      <div class="sub">Training improves speed and form, but fatigue and injury risk climb. Rest before big races.</div>
+      <div class="horses" id="horses"></div>
+    </main>
+
+    <aside class="panel">
+      <h2>Race Card</h2>
+      <div class="sub">Choose a runner, stake a bet, and pray the bookmakers are sober.</div>
+      <div class="book" id="races"></div>
+    </aside>
+  </div>
+
+  <div class="grid" style="margin-top:18px">
+    <section class="panel">
+      <h2>Underworld Office</h2>
+      <div class="sub">Every favour has a price. Keep reputation high and heat low.</div>
+      <div class="underworld" id="deals"></div>
+    </section>
+    <section class="panel">
+      <h2>Yard Ledger</h2>
+      <div class="log" id="log"></div>
+      <div class="row"><button class="green" onclick="nextWeek()">End Week</button><button class="ghost" onclick="resetGame()">Restart</button></div>
+    </section>
+  </div>
+  <div class="footer">Fictional game currency only. Real-world gambling, doping, animal harm and corruption are not endorsed.</div>
+</div>
+<script>
+const names=['Brass Knuckle','Shelby Smoke','Midnight Gin','Coalhouse Queen'];
+let state;
+function fresh(){return {week:1,cash:500,reputation:45,heat:10,gstable:20,
+ horses:names.map((n,i)=>({name:n,speed:44+i*5,stamina:50+i*6,form:45+Math.floor(Math.random()*20),fatigue:8,injured:false,doped:false,wins:0})),
+ log:['Welcome to Peaky Stables. Four horses, five hundred quid, and a city full of bad ideas.']}}
+function resetGame(){state=fresh();render()}
+function clamp(n,a=0,b=100){return Math.max(a,Math.min(b,Math.round(n)))}
+function money(n){return '£'+Math.round(n)}
+function oddsFor(h,r){let rating=h.speed+h.form+h.stamina-h.fatigue*1.3+(h.doped?28:0);let diff=r.diff*22-rating;return Math.max(1.5,Math.min(9,2.2+diff/22))}
+function log(msg,type=''){state.log.unshift(`<div class="entry ${type}">${msg}</div>`)}
+function render(){document.getElementById('weekNo').textContent=state.week;document.getElementById('stats').innerHTML=`<div class="stat"><span>Cash</span><b>${money(state.cash)}</b></div><div class="stat"><span>Reputation</span><b>${state.reputation}</b></div><div class="stat"><span>Steward Heat</span><b>${state.heat}</b></div><div class="stat"><span>Gang Pressure</span><b>${state.gstable}</b></div>`;renderHorses();renderRaces();renderDeals();document.getElementById('log').innerHTML=state.log.join('')}
+function renderHorses(){document.getElementById('horses').innerHTML=state.horses.map((h,i)=>`<div class="horse"><div><h3>${h.name}</h3><div class="meta"><span class="pill">${h.wins} wins</span>${h.injured?'<span class="pill">Injured</span>':''}${h.doped?'<span class="pill">Doped</span>':''}</div><div class="bars"><small>Speed ${h.speed}</small><div class="bar"><i style="width:${h.speed}%"></i></div><small>Stamina ${h.stamina}</small><div class="bar green"><i style="width:${h.stamina}%"></i></div><small>Form ${h.form}</small><div class="bar"><i style="width:${h.form}%"></i></div><small>Fatigue ${h.fatigue}</small><div class="bar red"><i style="width:${h.fatigue}%"></i></div></div></div><div class="actions"><button onclick="train(${i},'speed')" ${h.injured?'disabled':''}>Gallops</button><button onclick="train(${i},'stamina')" ${h.injured?'disabled':''}>Road Work</button><button class="ghost" onclick="rest(${i})">Rest</button><button class="danger" onclick="dope(${i})" ${h.doped||h.injured?'disabled':''}>Tonic</button></div></div>`).join('')}
+function raceList(){return [{name:'Small Heath Sprint',prize:180,diff:3,dist:'5f'},{name:'Birmingham Cup',prize:360,diff:5,dist:'1m'},{name:'Kingmaker Stakes',prize:750,diff:8,dist:'1m 4f'}]}
+function renderRaces(){document.getElementById('races').innerHTML=raceList().map((r,ri)=>`<div class="race"><div class="race-title"><span>${r.name}</span><span>${money(r.prize)}</span></div><small>${r.dist} · Difficulty ${r.diff}/10</small><div class="row"><select id="horse-${ri}">${state.horses.map((h,i)=>`<option value="${i}">${h.name} · ${oddsFor(h,r).toFixed(1)}x</option>`).join('')}</select><input id="stake-${ri}" type="number" min="0" value="25" /><button onclick="race(${ri})">Run Race</button></div></div>`).join('')}
+function renderDeals(){const deals=[['Fix the Draw','Pay a bookie to soften the field. Costs £80. Lowers next race difficulty vibe, but raises gang pressure.',()=>{if(pay(80)){state.reputation-=3;state.gstable+=10;state.horses.forEach(h=>h.form+=4);log('A flat-cap bookmaker winked. The whole yard feels luckier.','good')}}],['Pay Protection','Give the lads £120 to keep trouble away. Lowers gang pressure.',()=>{if(pay(120)){state.gstable=clamp(state.gstable-25);log('Protection paid. The alley behind the yard is quiet again.','good')}}],['Bribe a Steward','Costs £160. Reduces heat, damages reputation.',()=>{if(pay(160)){state.heat=clamp(state.heat-30);state.reputation=clamp(state.reputation-10);log('A steward suddenly misplaced a clipboard. Funny old world.','good')}}]];
+document.getElementById('deals').innerHTML=deals.map((d,i)=>`<div class="deal"><div><b>${d[0]}</b><p>${d[1]}</p></div><button onclick="deal(${i})">Do it</button></div>`).join(''); window._deals=deals}
+function pay(n){if(state.cash<n){log('Not enough cash. Even criminals require liquidity.','bad');return false}state.cash-=n;return true}
+function deal(i){window._deals[i][2]();tickDanger();render()}
+function train(i,type){let h=state.horses[i];if(type==='speed'){h.speed=clamp(h.speed+5);h.form=clamp(h.form+3);h.fatigue=clamp(h.fatigue+14)}else{h.stamina=clamp(h.stamina+6);h.form=clamp(h.form+2);h.fatigue=clamp(h.fatigue+11)}if(Math.random()<h.fatigue/180){h.injured=true;h.form=clamp(h.form-20);log(`${h.name} pulled up lame after hard work. Rest required.`, 'bad')}else log(`${h.name} completed ${type==='speed'?'sharp gallops':'road work'}.`,'good');render()}
+function rest(i){let h=state.horses[i];h.fatigue=clamp(h.fatigue-28);h.form=clamp(h.form+4);if(h.injured&&Math.random()<.55){h.injured=false;log(`${h.name} is sound again after quiet box rest.`,'good')}else log(`${h.name} rested. Less fire, more legs.`);render()}
+function dope(i){let h=state.horses[i];h.doped=true;state.heat=clamp(state.heat+12);state.reputation=clamp(state.reputation-4);log(`${h.name} got the backroom tonic. Fast legs, dangerous paperwork.`, 'bad');render()}
+function race(ri){let r=raceList()[ri], hi=+document.getElementById(`horse-${ri}`).value, stake=+document.getElementById(`stake-${ri}`).value||0,h=state.horses[hi];if(h.injured){log(`${h.name} cannot run while injured.`,'bad');return}if(stake>state.cash){log('Stake declined. The bookmaker laughed at your empty pockets.','bad');return}state.cash-=stake;let odds=oddsFor(h,r);let rating=h.speed+h.form+h.stamina-h.fatigue*1.45+(h.doped?30:0)+Math.random()*55;let target=95+r.diff*18;let caught=h.doped && Math.random()<(state.heat/120+.12);if(caught){state.cash=Math.max(0,state.cash-220);state.heat=clamp(state.heat+28);state.reputation=clamp(state.reputation-22);h.doped=false;log(`${h.name} was swabbed. Positive. Fine paid, reputation shredded, stable whispers everywhere.`, 'bad');render();return}if(rating>target){let win=r.prize+stake*odds;state.cash+=win;state.reputation=clamp(state.reputation+8);h.wins++;h.form=clamp(h.form+8);log(`${h.name} WON ${r.name}. Prize and bet return: ${money(win)}. The hats came off in the grandstand.`, 'good')}else{h.form=clamp(h.form-5);log(`${h.name} lost ${r.name}. Stake gone. The bookies are singing.`, 'bad')}h.fatigue=clamp(h.fatigue+20);h.doped=false;tickDanger();render()}
+function tickDanger(){if(Math.random()<state.gstable/130){let bite=60+Math.random()*90;state.cash=Math.max(0,state.cash-bite);state.reputation=clamp(state.reputation-5);log(`Gang collectors visited after dark. ${money(bite)} disappeared from the biscuit tin.`, 'bad')}if(state.heat>80&&Math.random()<.35){state.cash=Math.max(0,state.cash-150);state.heat=clamp(state.heat-20);log('Stewards raided the yard. Nothing fatal, but expensive.', 'bad')}}
+function nextWeek(){state.week++;state.cash-=70;state.horses.forEach(h=>{h.fatigue=clamp(h.fatigue-12);h.form=clamp(h.form-2+Math.random()*8); if(h.injured&&Math.random()<.35) h.injured=false});state.heat=clamp(state.heat-6);state.gstable=clamp(state.gstable+4);if(state.cash<0){log('You are broke. The yard survives on promises and stolen oats.', 'bad');state.cash=0}else log(`Week ${state.week} begins. £70 stable costs paid.`);render()}
+resetGame();
+</script>
+</body>
+</html>
