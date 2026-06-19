@@ -1,152 +1,373 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ABA: Bush League Basketball</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Courtside Chaos V0.2</title>
 <style>
-  :root{
-    --bg:#19120e;--wood:#3a2116;--wood2:#5a3424;--cream:#f6e6c8;--paper:#f8edd2;--ink:#2b1a12;
-    --red:#c83d2b;--gold:#f1b84b;--teal:#2f9a91;--green:#5f9d5e;--dark:#0d1720;--muted:#a88b68;
-  }
-  *{box-sizing:border-box} body{margin:0;font-family:Georgia,'Times New Roman',serif;background:radial-gradient(circle at top,#4a2b1d,#170f0b 62%);color:var(--cream);min-height:100vh}
-  button,input,select{font:inherit} button{cursor:pointer;border:0;border-radius:10px;padding:10px 13px;background:var(--gold);color:#24120b;font-weight:800;box-shadow:0 4px 0 #8c5a1f} button:hover{filter:brightness(1.05);transform:translateY(-1px)} button.secondary{background:#f7dfaa}.danger{background:var(--red);color:white}.ghost{background:#2b211b;color:var(--cream);box-shadow:0 4px 0 #120c08;border:1px solid #6f4a32}
-  .wrap{max-width:1220px;margin:0 auto;padding:22px}.hide{display:none!important}
-  .title{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:16px}.brand h1{margin:0;font-size:34px;letter-spacing:1px;text-transform:uppercase;text-shadow:3px 3px 0 #000}.brand p{margin:5px 0 0;color:#d6bd91}.badge{display:inline-flex;border:1px solid #8f6540;background:#2a1a12;border-radius:999px;padding:7px 10px;color:#ffd98d;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
-  .screen{background:linear-gradient(135deg,rgba(90,52,36,.94),rgba(36,21,15,.95));border:2px solid #8e5d35;border-radius:22px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.45), inset 0 0 45px rgba(255,190,80,.08)}
-  .start-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.card{background:rgba(19,13,10,.72);border:1px solid #6e4a31;border-radius:18px;padding:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}.paper{background:var(--paper);color:var(--ink);border:2px solid #b58b51;box-shadow:6px 6px 0 rgba(0,0,0,.25);font-family:'Courier New',monospace}.paper h3{margin-top:0;text-transform:uppercase}.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;max-height:590px;overflow:auto;padding-right:4px}.team{background:#28180f;border:1px solid #6b452e;border-radius:14px;padding:12px;transition:.15s}.team:hover,.team.selected{outline:3px solid var(--gold);background:#382216}.team .mascot{font-size:34px;float:right}.team h3{margin:0 0 6px}.team p{margin:0;color:#d5b98b;font-size:13px}.team small{display:block;color:#f4c368;margin-top:8px;font-weight:800}
-  .dash{display:grid;grid-template-columns:275px 1fr 300px;gap:16px}.office{position:relative;min-height:590px;background:linear-gradient(#2a1911,#140d0a);border-radius:20px;border:2px solid #7a4e30;overflow:hidden}.office:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 2px,transparent 2px 72px)}.secretary{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:210px;text-align:center}.hair{width:92px;height:58px;background:#3b1c13;border-radius:55px 55px 20px 20px;margin:0 auto -18px}.face{width:74px;height:78px;background:#f0b98d;border-radius:48% 48% 45% 45%;margin:0 auto;border:3px solid #2b160e;position:relative}.face:before,.face:after{content:"";position:absolute;top:32px;width:7px;height:7px;background:#20100b;border-radius:50%}.face:before{left:21px}.face:after{right:21px}.mouth{position:absolute;left:28px;top:54px;width:18px;height:6px;border-bottom:3px solid #7b2e2a;border-radius:50%}.body{width:132px;height:138px;background:linear-gradient(90deg,#d83f45,#9d1f2b);margin:-4px auto 0;border-radius:38px 38px 0 0;border:3px solid #2b160e}.bubble{position:absolute;top:20px;left:18px;right:18px;background:var(--paper);color:var(--ink);border-radius:16px;padding:14px;font-family:'Courier New',monospace;font-weight:800;box-shadow:5px 5px 0 rgba(0,0,0,.25)}.bubble:after{content:"";position:absolute;bottom:-12px;left:70px;border:12px solid transparent;border-top-color:var(--paper);border-bottom:0}
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.stat{background:#120d0a;border:1px solid #67452e;border-radius:14px;padding:12px}.stat span{display:block;color:#caa879;font-size:12px;text-transform:uppercase;letter-spacing:.08em}.stat b{display:block;font-size:24px;margin-top:4px;color:#ffe0a1}.stat.bad b{color:#ff8b70}.stat.good b{color:#8ee08c}
-  .desk{display:grid;grid-template-columns:1fr 1fr;gap:14px}.section h2{margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{background:#1d130e;border:1px solid #67452e;border-radius:14px;padding:12px}.choice h4{margin:0 0 6px;color:#ffd47c}.choice p{margin:0 0 10px;color:#d9bf92;font-size:13px}.log{height:260px;overflow:auto;font-family:'Courier New',monospace;font-size:13px;line-height:1.35}.news-head{font-size:22px;text-transform:uppercase;border-bottom:3px double #24120b;padding-bottom:8px;margin-bottom:10px}.schedule li{margin-bottom:8px}.roster{display:grid;gap:8px}.player{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:#1d130e;border:1px solid #67452e;border-radius:12px;padding:10px}.bars{font-size:12px;color:#d7bd8b}.modal{position:fixed;inset:0;background:rgba(0,0,0,.68);display:flex;align-items:center;justify-content:center;padding:18px;z-index:10}.modal .box{max-width:720px;width:100%;background:var(--paper);color:var(--ink);border-radius:18px;border:3px solid #8b5a32;padding:18px;box-shadow:12px 12px 0 rgba(0,0,0,.45)}
-  @media(max-width:980px){.start-grid,.dash,.desk{grid-template-columns:1fr}.office{min-height:360px}.stats{grid-template-columns:repeat(2,1fr)}}
+:root{
+  --crt:#7CFF7A;
+  --crt2:#39b54a;
+  --amber:#ffc857;
+  --wood:#3a2418;
+  --wood2:#24160f;
+  --ink:#0a100a;
+  --cream:#e9c98f;
+  --paper:#ead6a6;
+  --red:#b5412b;
+  --blue:#2b5f83;
+  --pink:#d85d83;
+  --purple:#4d3b7d;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#070907;color:var(--crt);font-family:"Courier New",monospace}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:999;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.035) 0,rgba(255,255,255,.035) 1px,transparent 2px,transparent 4px);
+  mix-blend-mode:screen;
+}
+body:after{
+  content:"";position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 80px #000;z-index:1000;
+}
+button{font-family:inherit}
+.boot{
+  min-height:100vh;padding:22px;
+  background:radial-gradient(circle at top,#183018,#050805 70%);
+}
+.title{
+  max-width:980px;margin:0 auto 18px;border:4px solid var(--crt);padding:18px;background:#091109;
+  box-shadow:0 0 18px rgba(124,255,122,.25);
+}
+.title h1{margin:0;font-size:34px;letter-spacing:3px;text-shadow:0 0 10px var(--crt)}
+.title .sub{color:var(--amber);letter-spacing:2px}
+.teams{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.team-card{
+  background:linear-gradient(#1b120d,#0c0907);border:3px solid #7b5530;padding:12px;cursor:pointer;
+  box-shadow:6px 6px 0 #000;
+}
+.team-card:hover{border-color:var(--amber);transform:translate(-1px,-1px)}
+.team-art{
+  height:120px;border:3px solid #000;background:#13201a;margin-bottom:10px;position:relative;overflow:hidden;
+  image-rendering:pixelated;
+}
+.team-name{font-size:18px;color:var(--paper);font-weight:bold}
+.team-note{font-size:12px;color:#c7a773;line-height:1.35;margin-top:5px}
+.logo-flamingos:before{
+  content:"";position:absolute;left:74px;top:22px;width:46px;height:64px;background:var(--pink);
+  clip-path:polygon(30% 0,75% 0,60% 30%,82% 55%,56% 100%,35% 64%,20% 100%,5% 55%,28% 30%);
+}
+.logo-flamingos:after{content:"";position:absolute;left:105px;top:12px;width:28px;height:28px;background:#ff9fba;border:5px solid #4c1b2d}
+.logo-bats:before{
+  content:"";position:absolute;left:35px;top:35px;width:150px;height:52px;background:#4c3b7d;
+  clip-path:polygon(0 55%,18% 18%,36% 60%,50% 12%,64% 60%,82% 18%,100% 55%,72% 75%,50% 55%,28% 75%);
+}
+.logo-armadillos:before{
+  content:"";position:absolute;left:42px;top:40px;width:140px;height:48px;background:#b47b42;border:5px solid #4b2a15;border-radius:45% 45% 35% 35%;
+}
+.logo-armadillos:after{content:"";position:absolute;left:52px;top:50px;width:110px;height:7px;background:repeating-linear-gradient(90deg,#4b2a15 0,#4b2a15 8px,transparent 9px,transparent 17px)}
+.logo-sasquatches:before{
+  content:"";position:absolute;left:73px;top:20px;width:70px;height:85px;background:#654321;border:5px solid #28170c;border-radius:35px 35px 18px 18px;
+}
+.logo-sasquatches:after{content:"";position:absolute;left:88px;top:48px;width:12px;height:12px;background:#000;box-shadow:28px 0 #000,14px 25px #28170c}
+.logo-rhinestones:before{
+  content:"";position:absolute;left:75px;top:18px;width:74px;height:74px;background:var(--blue);transform:rotate(45deg);border:6px solid #c6e6ff;
+}
+.logo-rhinestones:after{content:"";position:absolute;left:45px;top:95px;width:140px;height:10px;background:repeating-linear-gradient(90deg,#ffd66b 0,#ffd66b 8px,#8a4 9px,#8a4 16px)}
+.logo-lumberjacks:before{
+  content:"";position:absolute;left:56px;top:18px;width:100px;height:82px;background:linear-gradient(90deg,#8f261c 0 20%,#ead6a6 20% 40%,#8f261c 40% 60%,#ead6a6 60% 80%,#8f261c 80%);border:5px solid #321;
+}
+.logo-disco:before{
+  content:"";position:absolute;left:75px;top:20px;width:75px;height:75px;border-radius:50%;background:repeating-conic-gradient(#d9f7ff 0 10deg,#7db7d6 11deg 20deg,#eee 21deg 30deg);border:5px solid #111;
+}
+.logo-tornadoes:before{
+  content:"";position:absolute;left:58px;top:20px;width:120px;height:82px;background:#c7934b;
+  clip-path:polygon(8% 0,94% 0,78% 22%,90% 38%,55% 48%,76% 65%,32% 82%,55% 100%,10% 100%,30% 75%,0 62%,40% 45%,20% 28%);
+}
+.game{display:none;min-height:100vh;background:linear-gradient(90deg,var(--wood2),var(--wood) 280px,#081108 280px,#081108)}
+.topbar{padding:12px 16px;border-bottom:4px solid #000;background:#2a190f;color:var(--paper);display:flex;justify-content:space-between;align-items:center}
+.topbar h1{font-size:22px;letter-spacing:2px;margin:0;color:var(--amber)}
+.layout{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 56px)}
+.sidebar{padding:14px;background:linear-gradient(#402719,#26160f)}
+.sandra-frame{border:5px solid #000;background:#967052;box-shadow:8px 8px 0 #000;padding:8px}
+.sandra-art{height:310px;background:#d6a168;position:relative;overflow:hidden;image-rendering:pixelated}
+.sandra-art .hair{position:absolute;left:82px;top:28px;width:112px;height:110px;background:#f5d15e;border:6px solid #3b220e;border-radius:50% 50% 30% 30%}
+.sandra-art .face{position:absolute;left:98px;top:60px;width:82px;height:92px;background:#f0ba8c;border:5px solid #3b220e;border-radius:35%}
+.sandra-art .bang{position:absolute;left:88px;top:42px;width:104px;height:42px;background:#ffe070;border-bottom:6px solid #3b220e;clip-path:polygon(0 0,100% 0,82% 70%,62% 35%,45% 82%,26% 38%,12% 70%)}
+.sandra-art .eye{position:absolute;top:98px;left:118px;width:10px;height:10px;background:#111;box-shadow:36px 0 #111}
+.sandra-art .mouth{position:absolute;left:128px;top:129px;width:30px;height:8px;background:#b52331}
+.sandra-art .neck{position:absolute;left:124px;top:146px;width:34px;height:34px;background:#e6a980;border-left:5px solid #3b220e;border-right:5px solid #3b220e}
+.sandra-art .body{position:absolute;left:58px;top:172px;width:160px;height:140px;background:#c23b50;border:6px solid #3b220e;clip-path:polygon(22% 0,78% 0,100% 100%,0 100%)}
+.sandra-art .desk{position:absolute;left:0;bottom:0;width:100%;height:48px;background:#4b2c17;border-top:6px solid #1b0d05}
+.sandra-art .phone{position:absolute;left:18px;bottom:48px;width:55px;height:32px;background:#111;border:4px solid #4b4b4b;border-radius:25px 25px 6px 6px}
+.sandra-art .paper{position:absolute;right:20px;bottom:50px;width:62px;height:42px;background:#e9d5a8;border:3px solid #111;transform:rotate(-5deg)}
+.speech{background:#100b08;border:3px solid var(--paper);color:var(--paper);padding:10px;margin-top:12px;line-height:1.35;min-height:96px}
+.main{padding:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin-bottom:12px}
+.stat{background:#071207;border:2px solid var(--crt2);padding:8px;box-shadow:4px 4px 0 #000}
+.stat b{display:block;color:var(--amber);font-size:11px}
+.panel{background:#0b110b;border:3px solid var(--crt2);box-shadow:6px 6px 0 #000;margin-bottom:14px;padding:12px}
+.panel h2,.panel h3{margin:0 0 10px;color:var(--amber);letter-spacing:1px}
+.choice-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.choice{
+  text-align:left;background:#121912;color:var(--crt);border:2px solid var(--crt2);padding:10px;min-height:75px;
+}
+.choice.selected{background:#7cff7a;color:#061006;border-color:#fff}
+.choice small{display:block;opacity:.85;margin-top:6px}
+.roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.player{border:2px solid #6b7;background:#101610;padding:8px;cursor:pointer}
+.player:hover{border-color:var(--amber)}
+.player .name{color:var(--paper);font-weight:bold}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.big{font-size:17px;padding:12px 18px;background:#2a190f;border:3px solid var(--amber);color:var(--amber);box-shadow:4px 4px 0 #000}
+.newspaper{background:var(--paper);color:#14100b;border:5px solid #000;padding:16px;font-family:Georgia,serif;min-height:180px}
+.newspaper .mast{font-size:26px;font-weight:bold;border-bottom:4px solid #111;margin-bottom:10px}
+.newspaper h2{font-size:24px;margin:6px 0;color:#111}
+.weekdots{display:flex;gap:4px;flex-wrap:wrap}
+.dot{width:24px;height:24px;border:2px solid #476;background:#111;color:#ddd;display:flex;align-items:center;justify-content:center;font-size:12px}
+.dot.win{background:#174d21;color:#d8ffd8}.dot.loss{background:#5b1717;color:#ffd8d8}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:20}
+.modalbox{width:min(520px,92vw);background:#111;border:4px solid var(--amber);box-shadow:10px 10px 0 #000;padding:14px;color:var(--paper)}
+.close{float:right}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="title"><div class="brand"><h1>ABA: Bush League Basketball</h1><p>1983. Bad buses. Worse mascots. One dream: profit.</p></div><div class="badge">Carmen-style front office</div></div>
+<section class="boot" id="start">
+  <div class="title">
+    <h1>COURTSIDE CHAOS</h1>
+    <div class="sub">ROAD TO THE ASSOCIATION · 1983</div>
+    <p>Choose a failing minor league basketball franchise. Keep the lights on. Keep Sandra calm. Chase the dream of The Association.</p>
+    <button class="big" onclick="tone('menu')">START MIDI-STYLE SOUND</button>
+  </div>
+  <div class="teams" id="teamGrid"></div>
+</section>
 
-  <section id="start" class="screen">
-    <div class="start-grid">
-      <div>
-        <h2>Choose your doomed franchise</h2>
-        <p style="color:#d6bd91">None of these teams existed. Most of them should not exist now.</p>
-        <div id="teamList" class="teams"></div>
+<section class="game" id="game">
+  <div class="topbar">
+    <h1 id="clubTitle">COURTSIDE CHAOS</h1>
+    <div id="seasonTitle">1983 · Week 1</div>
+  </div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sandra-frame">
+        <div class="sandra-art" id="sandraArt">
+          <div class="hair"></div><div class="face"></div><div class="bang"></div><div class="eye"></div><div class="mouth"></div><div class="neck"></div><div class="body"></div><div class="desk"></div><div class="phone"></div><div class="paper"></div>
+        </div>
       </div>
-      <div class="card paper">
-        <h3>Commissioner's Welcome</h3>
-        <p>You have purchased a barely solvent basketball team in an unstable league full of hustlers, showmen, bad accountants and players who refuse to share motel rooms with mascots.</p>
-        <p>Your job is to survive 20 weeks by balancing wins, crowds, gimmicks, payroll, morale and suspicion.</p>
-        <p><b>Win condition:</b> finish the season with positive cash and owner patience above zero. Glory is optional. Solvency is not.</p>
-        <button id="startBtn" style="width:100%;margin-top:10px">Start Season</button>
+      <div class="speech" id="sandraSpeech">Boss, the phones are already ringing. Mostly creditors.</div>
+    </aside>
+    <main class="main">
+      <div class="stats" id="stats"></div>
+      <div class="panel">
+        <h2 id="matchup">This Week</h2>
+        <div id="homeAwayNote"></div>
       </div>
-    </div>
-  </section>
+      <div class="panel" id="travelPanel">
+        <h3>TRAVEL</h3>
+        <div class="choice-row" id="travelChoices"></div>
+      </div>
+      <div class="panel">
+        <h3>PROMOTION</h3>
+        <div class="choice-row" id="promoChoices"></div>
+      </div>
+      <div class="panel">
+        <h3>SHORTCUT</h3>
+        <div class="choice-row" id="shortcutChoices"></div>
+      </div>
+      <div class="panel">
+        <h3>ROSTER</h3>
+        <div class="roster" id="roster"></div>
+      </div>
+      <div class="panel">
+        <h3>SCHEDULE</h3>
+        <div class="weekdots" id="schedule"></div>
+      </div>
+      <div class="actions">
+        <button class="big" onclick="advanceWeek()">ADVANCE WEEK</button>
+        <button class="big" onclick="saveGame()">SAVE</button>
+        <button class="big" onclick="loadGame()">LOAD</button>
+        <button class="big" onclick="newSeason()">NEW SEASON</button>
+      </div>
+      <div class="panel">
+        <div class="newspaper" id="paper">
+          <div class="mast">SPORTS WEEKLY</div>
+          <h2>MINOR LEAGUE BASKETBALL IS DYING. CAN YOU SAVE IT?</h2>
+          <p>Sandra has sharpened her pencil. The Association remains a rumour.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
 
-  <section id="game" class="screen hide">
-    <div class="dash">
-      <aside class="office">
-        <div id="secretaryBubble" class="bubble">Boss, pick a city first. Preferably one with electricity.</div>
-        <div class="secretary"><div class="hair"></div><div class="face"><div class="mouth"></div></div><div class="body"></div></div>
-      </aside>
-
-      <main>
-        <div class="stats">
-          <div class="stat"><span>Week</span><b id="week">1/20</b></div>
-          <div class="stat good"><span>Cash</span><b id="cash">$0</b></div>
-          <div class="stat"><span>Record</span><b id="record">0-0</b></div>
-          <div class="stat bad"><span>Suspicion</span><b id="suspicion">0</b></div>
-        </div>
-        <div class="stats">
-          <div class="stat"><span>Fans</span><b id="fans">0</b></div>
-          <div class="stat"><span>Morale</span><b id="morale">0</b></div>
-          <div class="stat"><span>Reputation</span><b id="reputation">0</b></div>
-          <div class="stat bad"><span>Patience</span><b id="patience">0</b></div>
-        </div>
-        <div class="desk">
-          <div class="section card">
-            <h2 id="teamName">Team</h2>
-            <p id="nextGame"></p>
-            <h3>Weekly Decisions</h3>
-            <div class="actions" id="actions"></div>
-          </div>
-          <div class="section card paper">
-            <div class="news-head" id="headline">Local paper loading...</div>
-            <div id="newsBody">The ink is still wet.</div>
-          </div>
-        </div>
-        <div class="desk" style="margin-top:14px">
-          <div class="section card"><h2>Roster</h2><div id="roster" class="roster"></div></div>
-          <div class="section card"><h2>Office Log</h2><div id="log" class="log"></div></div>
-        </div>
-      </main>
-
-      <aside class="card">
-        <h2>Control Panel</h2>
-        <p id="identity" style="color:#d6bd91"></p>
-        <button onclick="playWeek()" style="width:100%;margin-bottom:10px">Play This Week</button>
-        <button class="secondary" onclick="saveGame()" style="width:100%;margin-bottom:10px">Save Game</button>
-        <button class="ghost" onclick="loadGame()" style="width:100%;margin-bottom:10px">Load Game</button>
-        <button class="danger" onclick="resetGame()" style="width:100%">New Season</button>
-        <hr style="border-color:#67452e;margin:18px 0">
-        <h3>Season Schedule</h3>
-        <ol id="schedule" class="schedule"></ol>
-      </aside>
-    </div>
-  </section>
+<div class="modal" id="modal" onclick="closeModal(event)">
+  <div class="modalbox" id="modalbox"></div>
 </div>
-
-<div id="modal" class="modal hide"><div class="box"><h2 id="modalTitle"></h2><div id="modalText"></div><button onclick="closeModal()">Back to the office</button></div></div>
 
 <script>
 const teams=[
- {city:'Fresno',name:'Flamongos',mascot:'🦩',tag:'Their mascot is a flamingo who cannot spell flamingo.',cash:115000,fans:2600},
- {city:'Boise',name:'Bats',mascot:'🦇',tag:'All home games start suspiciously after sunset.',cash:105000,fans:2300},
- {city:'Toledo',name:'Tornado Accountants',mascot:'🌪️',tag:'They do taxes at halftime. Poorly.',cash:130000,fans:1800},
- {city:'Wichita',name:'Wigglers',mascot:'🪱',tag:'An earthworm-based franchise nobody asked for.',cash:95000,fans:3100},
- {city:'Reno',name:'Coupon Kings',mascot:'✂️',tag:'Every ticket comes with expired mayo vouchers.',cash:90000,fans:3400},
- {city:'Akron',name:'Rubber Wizards',mascot:'🧙',tag:'Mystical. Bouncy. Slightly flammable.',cash:120000,fans:2200},
- {city:'Spokane',name:'Panic',mascot:'🚨',tag:'Their defensive scheme is mostly screaming.',cash:100000,fans:2800},
- {city:'Lubbock',name:'Lawn Darts',mascot:'🎯',tag:'Banned in four counties, beloved in one.',cash:98000,fans:3000},
- {city:'Des Moines',name:'Denim Demons',mascot:'👖',tag:'The only team with official game jeans.',cash:110000,fans:2500},
- {city:'Gary',name:'Goblinaires',mascot:'👺',tag:'Not goblins. Not millionaires. A legal compromise.',cash:85000,fans:3600},
- {city:'Duluth',name:'Dock Otters',mascot:'🦦',tag:'Wet court. Slippery brand strategy.',cash:125000,fans:1900},
- {city:'Bakersfield',name:'Briefcases',mascot:'💼',tag:'A corporate team with no corporation attached.',cash:140000,fans:1600}
+ {name:"Fresno Flamingos",city:"Fresno",class:"logo-flamingos",cash:85000,fan:72,prestige:11,note:"Pink uniforms. Loose defence. Fans expect nonsense."},
+ {name:"Boise Bats",city:"Boise",class:"logo-bats",cash:115000,fan:45,prestige:7,note:"Cheap rent, tiny crowds, surprisingly angry mascot."},
+ {name:"Amarillo Armadillos",city:"Amarillo",class:"logo-armadillos",cash:96000,fan:64,prestige:9,note:"Blue collar grit. Players keep asking where Amarillo is."},
+ {name:"Spokane Sasquatches",city:"Spokane",class:"logo-sasquatches",cash:90000,fan:69,prestige:10,note:"Huge home edge. Nobody can confirm the mascot is a person."},
+ {name:"Reno Rhinestones",city:"Reno",class:"logo-rhinestones",cash:125000,fan:74,prestige:12,note:"Casino cash. Chemistry problems. Questionable sponsors."},
+ {name:"Duluth Lumberjacks",city:"Duluth",class:"logo-lumberjacks",cash:88000,fan:76,prestige:8,note:"Brutal winters. Loyal fans. Musky fishing ruins everything."},
+ {name:"Dayton Disco Balls",city:"Dayton",class:"logo-disco",cash:78000,fan:82,prestige:5,note:"League embarrassment. Attendance kings."},
+ {name:"Tucson Tornadoes",city:"Tucson",class:"logo-tornadoes",cash:91000,fan:60,prestige:9,note:"Fast pace, hot gym, low patience."}
 ];
-const opponents=['Omaha Disco Horses','Knoxville Hot Tubs','Tulsa Tax Dodgers','Mobile Meatballs','Tacoma Fog Machine','Canton Legal Eagles','El Paso Space Possums','Fort Wayne Ferrets','Syracuse Sideburns','Little Rock Rhinestones','Peoria Pantsuits','Dayton Mystery Van'];
-const first=['Darnell','Rickey','Moses','Chip','Bingo','Luther','Vince','Skip','Alonzo','Terry','Reggie','Walt'];
-const nick=['Sky','Coupons','The Buffet','Downtown','No Socks','Velvet','Bus Pass','The Accountant','Tiny Thunder','Loose Change','Jukebox','Half Court'];
-const last=['Jackson','McGraw','Fontaine','Rivers','Bell','Stallone','Pickett','Hawkins','Malone','Rizzo','Washington','Doyle'];
-let s={}; let selected=0; let weekly={travel:null,promo:null,shortcut:null};
-function money(n){return '$'+Math.round(n).toLocaleString()}
+
+const names=["Ricky Malone","Bobby Buckets","Tiny McGee","Calvin Steam","Vince Velvet","Duke Laramie","Marty Glass","Skip Bonanza","Leonard Moon","Eddie Caboose","Frankie Neon","Cliff Rumble"];
+const traits=["Refuses Cheap Travel","Fan Favourite","Gym Rat","Party Animal","Gambler","Injury Prone","Locker Room Lawyer","Local Hero","Former Pro","Bad Knees","Huge Ego","Silent Assassin"];
+const positions=["PG","SG","SF","PF","C"];
+let game=null;
+
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
-function rand(a){return a[Math.floor(Math.random()*a.length)]}
-function initTeams(){teamList.innerHTML=teams.map((t,i)=>`<div class="team ${i===selected?'selected':''}" onclick="selectTeam(${i})"><div class="mascot">${t.mascot}</div><h3>${t.city} ${t.name}</h3><p>${t.tag}</p><small>Cash ${money(t.cash)} · Fans ${t.fans.toLocaleString()}</small></div>`).join('')}
-function selectTeam(i){selected=i;initTeams()}
-function newRoster(){return Array.from({length:8},(_,i)=>({name:`${rand(first)} "${rand(nick)}" ${rand(last)}`,tal:50+Math.floor(Math.random()*45),show:35+Math.floor(Math.random()*60),ego:20+Math.floor(Math.random()*75),mor:55+Math.floor(Math.random()*35),inj:false}))}
-function startGame(){const t=teams[selected];s={team:t,week:1,cash:t.cash,fans:t.fans,wins:0,losses:0,morale:62,reputation:45,suspicion:8,patience:75,roster:newRoster(),log:[`Bought the ${t.city} ${t.name}. Accountant immediately resigned.`],schedule:Array.from({length:20},()=>rand(opponents)),over:false}; start.classList.add('hide'); game.classList.remove('hide'); render();}
-startBtn.onclick=startGame; initTeams();
-const actionData={
- travel:[['Greyhound Public Bus',-3500,-9,4,'Players share seats with civilians and one emotional chicken.'],['Second-hand Team Bus',-9000,-2,0,'It has brakes. Mostly.'],['Charter Plane',-22000,8,-3,'The boys feel professional. The bank disagrees.']],
- promo:[['Free Hot Dog Night',-6000,900,2,'A classic. The mustard situation is unresolved.'],['Disco Dunk Contest',-9000,1300,5,'Local DJs, wide collars, no insurance questions.'],['Mascot Wrestling Mayor',-3000,1800,13,'The mayor signed a waiver nobody can find.'],['Coupon Funeral',-1500,700,6,'Fans bury expired coupons at center court.']],
- shortcut:[['Play It Straight',0,0,-5,'Boring. Legal. Weirdly effective sometimes.'],['Mystery Supplements Guy',-4500,5,16,'He says they are vitamins. His van says otherwise.'],['Underworld Sponsorship',12000,-4,18,'Cash arrives in a bowling bag.'],['Skip Payroll Until Monday',9000,-12,9,'Players notice. They always notice.']]
+function buildTeams(){
+ document.getElementById("teamGrid").innerHTML=teams.map((t,i)=>`
+ <div class="team-card" onclick="startGame(${i})">
+   <div class="team-art ${t.class}"></div>
+   <div class="team-name">${t.name}</div>
+   <div class="team-note">${t.note}</div>
+ </div>`).join("");
+}
+function makeRoster(){
+ return names.map((n,i)=>({name:n,pos:positions[i%5],overall:rand(55,91),ent:rand(20,99),ego:rand(10,95),loyalty:rand(15,95),sat:rand(45,88),trait:traits[i%traits.length],salary:rand(4,18)*1000}));
+}
+function startGame(i){
+ const t=teams[i];
+ game={team:t,year:1983,week:1,w:0,l:0,cash:t.cash,fan:t.fan,prestige:t.prestige,suspicion:5,satisfaction:66,history:[],schedule:[],roster:makeRoster(),picks:{travel:null,promo:null,shortcut:null},home:Math.random()>.45};
+ document.getElementById("start").style.display="none";
+ document.getElementById("game").style.display="block";
+ tone("menu"); render();
+}
+const choices={
+ travel:[
+  ["Charter Flight",-9000,7,4,"Expensive, civilised, suspiciously professional."],
+  ["Team Bus",-2600,-2,0,"Normal minor league misery."],
+  ["Greyhound",2500,-11,-2,"Very cheap. Deeply humiliating."]
+ ],
+ promo:[
+  ["Beer Night",8000,-1,1,"Great cash, sticky floors."],
+  ["Disco Night",5500,2,0,"Mirror ball magic."],
+  ["Wrestling Halftime",9000,0,2,"Crowds love it. Officials do not."],
+  ["Family Matinee",3500,4,1,"Clean, wholesome, barely profitable."]
+ ],
+ shortcut:[
+  ["None",0,2,1,"A rare moment of dignity."],
+  ["Budget Motel",2200,-5,-1,"Two beds. Twelve players."],
+  ["Cheap Supplements",0,-2,8,"The bottle says vitamins."],
+  ["Skip Practice",1200,-3,-3,"Rested legs. Rusty jumpers."]
+ ]
 };
-function renderActions(){actions.innerHTML=['travel','promo','shortcut'].map(cat=>`<div><h3>${cat.toUpperCase()}</h3>${actionData[cat].map((a,i)=>`<div class="choice"><h4>${a[0]}</h4><p>${a[4]}</p><button onclick="choose('${cat}',${i})">Choose</button></div>`).join('')}</div>`).join('')}
-function choose(cat,i){weekly[cat]=i; log(`Selected ${actionData[cat][i][0]}.`); render()}
-function render(){week.textContent=s.week+'/20';cash.textContent=money(s.cash);record.textContent=s.wins+'-'+s.losses;suspicion.textContent=s.suspicion;fans.textContent=s.fans.toLocaleString();morale.textContent=s.morale;reputation.textContent=s.reputation;patience.textContent=s.patience;teamName.textContent=s.team.city+' '+s.team.name+' '+s.team.mascot;identity.textContent=`General Manager of the ${s.team.city} ${s.team.name}. Try not to get indicted.`;nextGame.textContent=`Next game: ${s.schedule[s.week-1] || 'Season complete'} at home.`;secretaryBubble.textContent=secretaryLine();renderActions();renderRoster();renderLog();renderSchedule();}
-function renderRoster(){roster.innerHTML=s.roster.map(p=>`<div class="player"><div><b>${p.name}</b><div class="bars">Talent ${p.tal} · Show ${p.show} · Ego ${p.ego} · Morale ${p.mor}${p.inj?' · INJURED':''}</div></div><span>${p.show>80?'🌟':p.ego>75?'😤':'🏀'}</span></div>`).join('')}
-function renderLog(){document.getElementById('log').innerHTML=s.log.slice(-40).map(x=>'• '+x).join('<br>')}
-function renderSchedule(){schedule.innerHTML=s.schedule.map((o,i)=>`<li>${i+1}. ${o}${i+1<s.week?' ✅':''}${i+1===s.week?' ←':''}</li>`).join('')}
-function log(x){s.log.push(x);renderLog()}
-function secretaryLine(){let lines=[`Boss, the ${s.team.mascot} costume smells like old popcorn.`,`The league office called. I said you were in a meeting with a banker. You are welcome.`,`Ticket sales are ${s.fans>4000?'strangely healthy':'making me nervous'}, boss.`,`Please stop calling Greyhound a strategic aviation partner.`]; if(s.suspicion>65) lines.push('Boss, men in beige suits are asking about our vitamins.'); if(s.cash<30000) lines.push('The bank used the phrase “deeply unserious.”'); return rand(lines)}
-function playWeek(){if(s.over)return; if(weekly.travel===null||weekly.promo===null||weekly.shortcut===null){show('Not so fast','Pick one Travel, one Promotion, and one Shortcut before playing the week.');return}
- let t=actionData.travel[weekly.travel],p=actionData.promo[weekly.promo],c=actionData.shortcut[weekly.shortcut]; s.cash+=t[1]+p[1]+c[1]; s.morale+=t[2]+c[2]; s.suspicion+=t[3]+p[3]+c[3]; s.reputation+=Math.floor(p[2]/250)+Math.floor(Math.random()*7)-2; s.fans+=p[2]+Math.floor((s.reputation-45)*20)+Math.floor(Math.random()*500)-150;
- let talent=s.roster.reduce((a,b)=>a+b.tal+(b.inj?-25:0),0)/s.roster.length; let show=s.roster.reduce((a,b)=>a+b.show,0)/s.roster.length; let odds=talent*.55+s.morale*.25+show*.12+Math.random()*35-s.suspicion*.08; let opp=62+Math.random()*35; let won=odds>opp; won?s.wins++:s.losses++; let gate=s.fans*(won?9.5:7.5)+show*55; s.cash+=gate; s.morale+=won?7:-6; s.reputation+=won?5:-3; s.patience+=won?3:-6; randomEvent(won); s.morale=clamp(Math.round(s.morale),0,100);s.reputation=clamp(Math.round(s.reputation),0,100);s.suspicion=clamp(Math.round(s.suspicion),0,100);s.patience=clamp(Math.round(s.patience),0,100);s.fans=clamp(Math.round(s.fans),250,12000);
- headline.textContent=won?`${s.team.name} win, mascot survives another night`:`${s.team.name} lose; crowd still oddly entertained`; newsBody.innerHTML=`Final: ${s.team.city} ${won?'defeated':'fell to'} ${s.schedule[s.week-1]}. Gate receipts: <b>${money(gate)}</b>. The promotion was <b>${p[0]}</b>. Travel was <b>${t[0]}</b>. Shortcut: <b>${c[0]}</b>.`;
- log(`${won?'Won':'Lost'} against ${s.schedule[s.week-1]}. Gate ${money(gate)}.`); weekly={travel:null,promo:null,shortcut:null}; s.week++; if(s.week>20||s.cash<-20000||s.patience<=0||s.suspicion>=100) endSeason(); render();}
-function randomEvent(won){let events=[()=>{let p=rand(s.roster);p.mor-=10;s.cash-=3000;log(`${p.name} missed warmups after boarding the wrong Greyhound.`)},()=>{s.cash+=8000;s.suspicion+=8;log('A nightclub owner bought 400 tickets in cash and winked too much.')},()=>{s.fans+=600;s.reputation+=6;log('Mascot became a local TV sensation after falling through the scorer’s table.')},()=>{let p=rand(s.roster);p.inj=Math.random()<.35;log(`${p.name} challenged a fan to HORSE. ${p.inj?'Pulled something dramatic.':'Won free nachos.'}`)},()=>{s.cash-=5000;s.patience-=4;log('Arena roof leaked onto the visiting coach. Lawsuit pending-ish.')}]; rand(events)();}
-function endSeason(){s.over=true;let good=s.cash>0&&s.patience>0&&s.suspicion<100;show(good?'Season Saved':'Season Imploded',`<p><b>Final record:</b> ${s.wins}-${s.losses}</p><p><b>Cash:</b> ${money(s.cash)}</p><p><b>Suspicion:</b> ${s.suspicion}</p><p>${good?'You survived the ABA circus. The owner calls you a visionary. The accountant calls you a danger to arithmetic.':'The league, bank, owner or possibly the mascot has ended your season.'}</p>`)}
-function show(t,html){modalTitle.textContent=t;modalText.innerHTML=html;modal.classList.remove('hide')} function closeModal(){modal.classList.add('hide')}
-function saveGame(){localStorage.setItem('abaBushLeague',JSON.stringify(s));show('Saved','The season has been shoved into a filing cabinet.')} function loadGame(){let data=localStorage.getItem('abaBushLeague');if(!data)return show('No save found','The filing cabinet is empty except for hotdog invoices.');s=JSON.parse(data);start.classList.add('hide');game.classList.remove('hide');render()} function resetGame(){localStorage.removeItem('abaBushLeague');location.reload()}
+function render(){
+ document.getElementById("clubTitle").textContent=game.team.name;
+ document.getElementById("seasonTitle").textContent=`${game.year} · Week ${game.week}`;
+ document.getElementById("stats").innerHTML=[
+  ["RECORD",`${game.w}-${game.l}`],["CASH",`$${game.cash.toLocaleString()}`],["FANS",game.fan],["SATISFACTION",game.satisfaction],["SUSPICION",game.suspicion],["PRESTIGE",game.prestige]
+ ].map(s=>`<div class="stat"><b>${s[0]}</b>${s[1]}</div>`).join("");
+ const opp=teams[(game.week+teams.indexOf(game.team)+1)%teams.length].name;
+ document.getElementById("matchup").textContent=`Week ${game.week}: ${game.home?opp+" @ "+game.team.name:game.team.name+" @ "+opp}`;
+ document.getElementById("homeAwayNote").innerHTML=game.home?"Home game. No travel required. Sandra has booked a local radio spot.":"Away game. Choose how badly you want the players to suffer.";
+ document.getElementById("travelPanel").style.display=game.home?"none":"block";
+ renderChoices("travelChoices","travel");
+ renderChoices("promoChoices","promo");
+ renderChoices("shortcutChoices","shortcut");
+ document.getElementById("roster").innerHTML=game.roster.map((p,i)=>`<div class="player" onclick="showPlayer(${i})"><div class="name">${p.name}</div>${p.pos} · OVR ${p.overall}<br>SAT ${p.sat} · ${p.trait}</div>`).join("");
+ document.getElementById("schedule").innerHTML=Array.from({length:24},(_,i)=>{
+   const r=game.schedule[i]; return `<div class="dot ${r==='W'?'win':r==='L'?'loss':''}">${r?r:i+1}</div>`;
+ }).join("");
+}
+function renderChoices(id,type){
+ document.getElementById(id).innerHTML=choices[type].map(c=>`<button class="choice ${game.picks[type]===c[0]?'selected':''}" onclick="selectChoice('${type}','${c[0]}')"><b>${c[0]}</b><small>${c[4]}</small></button>`).join("");
+}
+function selectChoice(type,val){game.picks[type]=val;tone("click");render();}
+function chosen(type){return choices[type].find(c=>c[0]===game.picks[type])||choices[type][0]}
+function advanceWeek(){
+ if(!game.home && !game.picks.travel) game.picks.travel="Team Bus";
+ if(!game.picks.promo) game.picks.promo="Family Matinee";
+ if(!game.picks.shortcut) game.picks.shortcut="None";
+ let story=[], cash=0, sat=0, susp=0, prestige=0, winBonus=0, attend=game.fan*70+rand(-500,500);
+ if(!game.home){let c=chosen("travel");cash+=c[1];sat+=c[2];winBonus+=c[3];story.push(`Travel: ${c[0]}.`);}
+ let p=chosen("promo");cash+=p[1];sat+=p[2];susp+=p[3];attend+=p[1]/8;story.push(`Promotion: ${p[0]}.`);
+ let s=chosen("shortcut");cash+=s[1];sat+=s[2];susp+=s[3];winBonus+=s[3]>3?5:s[3];story.push(`Shortcut: ${s[0]}.`);
+ const ev=randomEvent(); cash+=ev.cash||0; sat+=ev.sat||0; susp+=ev.susp||0; prestige+=ev.prestige||0; attend+=ev.att||0; winBonus+=ev.win||0; story.push(ev.text);
+ const talent=game.roster.reduce((a,b)=>a+b.overall,0)/game.roster.length;
+ const chemistry=(game.satisfaction+game.roster.reduce((a,b)=>a+b.sat,0)/game.roster.length)/2;
+ const chance=clamp(42+(talent-70)*0.8+(chemistry-60)*0.35+winBonus,10,88);
+ const won=Math.random()*100<chance;
+ if(won){game.w++;game.schedule.push("W");prestige+=2;cash+=rand(9000,18000);story.push("Your boys win. Sandra permits herself a small smile.");tone("win");}
+ else{game.l++;game.schedule.push("L");prestige-=1;cash+=rand(3000,11000);sat-=2;story.push("Loss. The newspaper calls it 'character building', which is never good.");tone("loss");}
+ game.cash+=Math.round(cash);
+ game.satisfaction=clamp(game.satisfaction+sat,0,100);
+ game.suspicion=clamp(game.suspicion+susp,0,100);
+ game.prestige=clamp(game.prestige+prestige,0,100);
+ game.fan=clamp(Math.round(game.fan+(won?2:-1)+(p[0].includes("Beer")?1:0)),5,100);
+ game.roster.forEach(pl=>{pl.sat=clamp(pl.sat+sat+rand(-2,2)+(won?2:-2),0,100)});
+ const headline=won?`${game.team.name.toUpperCase()} SURVIVE CHAOS`:`${game.team.name.toUpperCase()} FALL APART LATE`;
+ document.getElementById("paper").innerHTML=`<div class="mast">${game.team.city.toUpperCase()} DAILY</div><h2>${headline}</h2><p><b>Attendance:</b> ${Math.max(900,Math.round(attend)).toLocaleString()}</p><p>${story.join(" ")}</p><p><b>Sandra:</b> "${sandraLine(won,ev)}"</p>`;
+ document.getElementById("sandraSpeech").textContent=sandraLine(won,ev);
+ game.history.push({year:game.year,week:game.week,headline,story});
+ game.week++;
+ if(game.week>24){game.year++;game.week=1;game.schedule=[]; game.prestige+= game.w>game.l?5:0; game.w=0;game.l=0; document.getElementById("paper").innerHTML+=`<p><b>Season rolls over.</b> The Association remains interested in teams that can win without being indicted.</p>`;}
+ game.home=Math.random()>.45;
+ game.picks={travel:null,promo:null,shortcut:null};
+ if(game.cash<0){document.getElementById("paper").innerHTML+=`<h2>BANKRUPTCY WARNING</h2><p>The bank owns more of the franchise than you do.</p>`}
+ render();
+}
+function randomEvent(){
+ const events=[
+  {text:"Duluth's musky fishing classic drags half the town to the lake.",att:-1800,cash:-2500},
+  {text:"The arena is double-booked with a monster truck rally. Game staff mark the free throw line with chalk.",att:900,sat:-3,prestige:1},
+  {text:"A scout from The Association is seen eating a hot dog in Section C.",prestige:4,att:700},
+  {text:"The roof leaks above the visiting bench. Technically, home advantage.",win:3,susp:1},
+  {text:"Sandra finds a sponsor: a tuxedo rental shop with no questions asked.",cash:6500,prestige:1},
+  {text:"Your mascot starts a radio feud with the mayor.",att:600,susp:2},
+  {text:"A local newspaper calls your offence 'jazz with elbows'.",prestige:2},
+  {text:"The visiting team bus gets lost behind a bowling alley.",win:6,susp:1},
+  {text:"A beer spill near the baseline causes three turnovers and one lawsuit.",cash:-3000,sat:-1,susp:3},
+  {text:"A player threatens to leave unless travel improves.",sat:-6}
+ ];
+ return events[rand(0,events.length-1)];
+}
+function sandraLine(won,ev){
+ const lines=won?[
+  "Boss, winning makes almost everything legal in retrospect.",
+  "I don't know what we are building here, but people are buying tickets.",
+  "The Association scout did not leave early. That feels important."
+ ]:[
+  "Boss, I have hidden the morning paper from the locker room.",
+  "The players are asking whether losing counts as cardio.",
+  "We may need fewer stunts and more rebounds."
+ ];
+ if(game.suspicion>60) return "Boss, the league office called twice. I pretended to be a wrong number.";
+ if(game.satisfaction<30) return "Boss, the locker room is using words I cannot repeat on company stationery.";
+ return lines[rand(0,lines.length-1)];
+}
+function showPlayer(i){
+ const p=game.roster[i];
+ document.getElementById("modalbox").innerHTML=`<button class="close" onclick="hideModal()">X</button><h2>${p.name}</h2><p>${p.pos} · Overall ${p.overall}</p><p>Entertainment ${p.ent}<br>Ego ${p.ego}<br>Loyalty ${p.loyalty}<br>Satisfaction ${p.sat}<br>Salary $${p.salary.toLocaleString()}</p><p><b>Trait:</b> ${p.trait}</p><button class="big" onclick="releasePlayer(${i})">RELEASE PLAYER</button>`;
+ document.getElementById("modal").style.display="flex";
+}
+function releasePlayer(i){
+ const p=game.roster[i]; game.roster.splice(i,1); game.cash+=Math.round(p.salary/2); game.satisfaction=clamp(game.satisfaction-8,0,100);
+ game.roster.forEach(x=>x.sat=clamp(x.sat-5,0,100));
+ document.getElementById("paper").innerHTML=`<div class="mast">SPORTS WEEKLY</div><h2>${p.name.toUpperCase()} RELEASED</h2><p>The move saves cash but chills the locker room.</p><p><b>Sandra:</b> "Boss, the players are calling this place a meat market."</p>`;
+ hideModal(); render();
+}
+function hideModal(){document.getElementById("modal").style.display="none"}
+function closeModal(e){if(e.target.id==="modal")hideModal()}
+function saveGame(){localStorage.setItem("courtsideChaosV02",JSON.stringify(game));document.getElementById("sandraSpeech").textContent="Saved, boss. I put it in the metal filing cabinet."}
+function loadGame(){const s=localStorage.getItem("courtsideChaosV02"); if(s){game=JSON.parse(s);document.getElementById("start").style.display="none";document.getElementById("game").style.display="block";render();}}
+function newSeason(){location.reload()}
+let audioCtx=null;
+function tone(type){
+ try{
+  audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+  const notes=type==="win"?[523,659,784]:type==="loss"?[392,330,262]:type==="menu"?[262,330,392,523]:[440];
+  notes.forEach((n,i)=>setTimeout(()=>{let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type="square";o.frequency.value=n;g.gain.value=.04;o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.12)},i*130));
+ }catch(e){}
+}
+buildTeams();
 </script>
 </body>
 </html>
