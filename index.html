@@ -3,371 +3,389 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Courtside Chaos V0.2</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Courtside Chaos — Mobile Rebuild</title>
 <style>
 :root{
-  --crt:#7CFF7A;
-  --crt2:#39b54a;
-  --amber:#ffc857;
-  --wood:#3a2418;
-  --wood2:#24160f;
-  --ink:#0a100a;
-  --cream:#e9c98f;
-  --paper:#ead6a6;
-  --red:#b5412b;
-  --blue:#2b5f83;
-  --pink:#d85d83;
-  --purple:#4d3b7d;
+  --bg:#14100e;
+  --panel:#241815;
+  --panel2:#34211b;
+  --gold:#f0c56a;
+  --cream:#f8e3b0;
+  --muted:#b99062;
+  --green:#6ee07a;
+  --red:#e05b52;
+  --ink:#130d0a;
+  --line:#6b4931;
+  --crt:#75f27b;
+  --blue:#4c8fb3;
+  --pink:#d46187;
 }
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#070907;color:var(--crt);font-family:"Courier New",monospace}
-body:before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:999;
-  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.035) 0,rgba(255,255,255,.035) 1px,transparent 2px,transparent 4px);
-  mix-blend-mode:screen;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--cream);font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Courier New",monospace}
+body{
+  background:
+    radial-gradient(circle at 50% -10%,rgba(240,197,106,.15),transparent 34%),
+    linear-gradient(180deg,#120e0c,#20140f 55%,#0d0a08);
 }
-body:after{
-  content:"";position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 80px #000;z-index:1000;
+button{font:inherit}
+.app{max-width:560px;margin:0 auto;min-height:100vh;padding:env(safe-area-inset-top) 12px calc(82px + env(safe-area-inset-bottom));}
+.top{
+  position:sticky;top:0;z-index:5;margin:0 -12px 10px;padding:12px 14px 10px;
+  background:linear-gradient(180deg,#291914,#17100d);border-bottom:2px solid var(--line);
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
 }
-button{font-family:inherit}
-.boot{
-  min-height:100vh;padding:22px;
-  background:radial-gradient(circle at top,#183018,#050805 70%);
+.brand{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand h1{font-size:18px;margin:0;color:var(--gold);letter-spacing:.08em;line-height:1}
+.brand small{display:block;color:var(--muted);font-size:10px;margin-top:4px;letter-spacing:.12em}
+.pill{border:1px solid var(--line);border-radius:999px;padding:6px 9px;background:#160f0c;color:var(--cream);font-size:11px}
+.screen{display:none;animation:fade .18s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:.5;transform:translateY(3px)}to{opacity:1;transform:none}}
+.hero{
+  border:1px solid var(--line);background:linear-gradient(180deg,#3a241c,#211510);
+  border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 14px 26px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.04);
 }
-.title{
-  max-width:980px;margin:0 auto 18px;border:4px solid var(--crt);padding:18px;background:#091109;
-  box-shadow:0 0 18px rgba(124,255,122,.25);
+.titlebig{font-size:25px;line-height:1;margin:0 0 6px;color:var(--gold);letter-spacing:.06em}
+.copy{color:#e2c996;line-height:1.45;font-size:13px;margin:0}
+.teamlist{display:grid;gap:10px}
+.teamcard{
+  display:grid;grid-template-columns:74px 1fr;gap:12px;align-items:center;border:1px solid var(--line);
+  border-radius:16px;background:linear-gradient(180deg,#2a1a15,#17100d);padding:10px;text-align:left;color:var(--cream);
+  box-shadow:0 8px 18px rgba(0,0,0,.24);
 }
-.title h1{margin:0;font-size:34px;letter-spacing:3px;text-shadow:0 0 10px var(--crt)}
-.title .sub{color:var(--amber);letter-spacing:2px}
-.teams{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-.team-card{
-  background:linear-gradient(#1b120d,#0c0907);border:3px solid #7b5530;padding:12px;cursor:pointer;
-  box-shadow:6px 6px 0 #000;
+.teamcard:active{transform:scale(.99)}
+.crest{height:74px;border-radius:14px;background:#111;border:1px solid #000;position:relative;overflow:hidden}
+.crest:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.14),transparent 45%,rgba(0,0,0,.25));}
+.flamingo{background:linear-gradient(135deg,#5a2434,#181012)}
+.flamingo:before{content:"";position:absolute;left:28px;top:11px;width:23px;height:44px;border:8px solid var(--pink);border-left-color:transparent;border-bottom-color:transparent;border-radius:50%;transform:rotate(-20deg)}
+.flamingo i{position:absolute;left:36px;top:44px;width:18px;height:18px;background:var(--pink);border-radius:50%}
+.bats{background:linear-gradient(135deg,#20163b,#0d0c12)}
+.bats:before{content:"";position:absolute;left:13px;top:24px;width:48px;height:28px;background:#7759c9;clip-path:polygon(0 55%,20% 0,40% 60%,50% 12%,60% 60%,80% 0,100% 55%,76% 72%,50% 52%,24% 72%)}
+.armadillos{background:linear-gradient(135deg,#5b371c,#17100d)}
+.armadillos:before{content:"";position:absolute;left:12px;top:26px;width:50px;height:25px;background:#c28a50;border-radius:28px 28px 18px 18px;border:4px solid #271307}
+.sasquatches{background:linear-gradient(135deg,#2e3b24,#100d0b)}
+.sasquatches:before{content:"";position:absolute;left:25px;top:14px;width:26px;height:47px;background:#6b4526;border-radius:18px 18px 10px 10px;border:4px solid #211108}
+.rhinestones{background:linear-gradient(135deg,#172d45,#0b0b12)}
+.rhinestones:before{content:"";position:absolute;left:21px;top:18px;width:32px;height:32px;background:#84c7e8;transform:rotate(45deg);border:4px solid #e7fbff}
+.lumberjacks{background:linear-gradient(135deg,#3b1e17,#111)}
+.lumberjacks:before{content:"";position:absolute;left:16px;top:15px;width:42px;height:44px;background:repeating-linear-gradient(90deg,#98291f 0 9px,#f0d0a0 10px 18px);border:4px solid #1c0b08}
+.disco{background:linear-gradient(135deg,#3c2445,#0e0d12)}
+.disco:before{content:"";position:absolute;left:19px;top:14px;width:37px;height:37px;border-radius:50%;background:repeating-conic-gradient(#eef 0 16deg,#7db8d6 17deg 32deg);border:4px solid #111}
+.tornadoes{background:linear-gradient(135deg,#5b351b,#100d0b)}
+.tornadoes:before{content:"";position:absolute;left:16px;top:13px;width:42px;height:48px;background:#d29b52;clip-path:polygon(12% 0,100% 0,70% 22%,95% 36%,48% 48%,74% 66%,28% 82%,55% 100%,5% 100%,29% 74%,0 62%,38% 45%,17% 27%)}
+.teamname{font-weight:800;color:var(--gold);font-size:16px}
+.teammeta{font-size:12px;color:#d9bc83;line-height:1.35;margin-top:3px}
+.sandra-card{display:grid;grid-template-columns:112px 1fr;gap:12px;align-items:stretch}
+.portrait{
+  min-height:132px;border-radius:16px;position:relative;overflow:hidden;background:linear-gradient(180deg,#b97b56,#71402d);
+  border:1px solid #000;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)
 }
-.team-card:hover{border-color:var(--amber);transform:translate(-1px,-1px)}
-.team-art{
-  height:120px;border:3px solid #000;background:#13201a;margin-bottom:10px;position:relative;overflow:hidden;
-  image-rendering:pixelated;
+.portrait:before{
+  content:"";position:absolute;left:27px;top:13px;width:59px;height:62px;border-radius:48% 48% 35% 35%;background:#f0cd65;
+  box-shadow:-15px 15px 0 #e0b849,15px 12px 0 #f5d777;
 }
-.team-name{font-size:18px;color:var(--paper);font-weight:bold}
-.team-note{font-size:12px;color:#c7a773;line-height:1.35;margin-top:5px}
-.logo-flamingos:before{
-  content:"";position:absolute;left:74px;top:22px;width:46px;height:64px;background:var(--pink);
-  clip-path:polygon(30% 0,75% 0,60% 30%,82% 55%,56% 100%,35% 64%,20% 100%,5% 55%,28% 30%);
-}
-.logo-flamingos:after{content:"";position:absolute;left:105px;top:12px;width:28px;height:28px;background:#ff9fba;border:5px solid #4c1b2d}
-.logo-bats:before{
-  content:"";position:absolute;left:35px;top:35px;width:150px;height:52px;background:#4c3b7d;
-  clip-path:polygon(0 55%,18% 18%,36% 60%,50% 12%,64% 60%,82% 18%,100% 55%,72% 75%,50% 55%,28% 75%);
-}
-.logo-armadillos:before{
-  content:"";position:absolute;left:42px;top:40px;width:140px;height:48px;background:#b47b42;border:5px solid #4b2a15;border-radius:45% 45% 35% 35%;
-}
-.logo-armadillos:after{content:"";position:absolute;left:52px;top:50px;width:110px;height:7px;background:repeating-linear-gradient(90deg,#4b2a15 0,#4b2a15 8px,transparent 9px,transparent 17px)}
-.logo-sasquatches:before{
-  content:"";position:absolute;left:73px;top:20px;width:70px;height:85px;background:#654321;border:5px solid #28170c;border-radius:35px 35px 18px 18px;
-}
-.logo-sasquatches:after{content:"";position:absolute;left:88px;top:48px;width:12px;height:12px;background:#000;box-shadow:28px 0 #000,14px 25px #28170c}
-.logo-rhinestones:before{
-  content:"";position:absolute;left:75px;top:18px;width:74px;height:74px;background:var(--blue);transform:rotate(45deg);border:6px solid #c6e6ff;
-}
-.logo-rhinestones:after{content:"";position:absolute;left:45px;top:95px;width:140px;height:10px;background:repeating-linear-gradient(90deg,#ffd66b 0,#ffd66b 8px,#8a4 9px,#8a4 16px)}
-.logo-lumberjacks:before{
-  content:"";position:absolute;left:56px;top:18px;width:100px;height:82px;background:linear-gradient(90deg,#8f261c 0 20%,#ead6a6 20% 40%,#8f261c 40% 60%,#ead6a6 60% 80%,#8f261c 80%);border:5px solid #321;
-}
-.logo-disco:before{
-  content:"";position:absolute;left:75px;top:20px;width:75px;height:75px;border-radius:50%;background:repeating-conic-gradient(#d9f7ff 0 10deg,#7db7d6 11deg 20deg,#eee 21deg 30deg);border:5px solid #111;
-}
-.logo-tornadoes:before{
-  content:"";position:absolute;left:58px;top:20px;width:120px;height:82px;background:#c7934b;
-  clip-path:polygon(8% 0,94% 0,78% 22%,90% 38%,55% 48%,76% 65%,32% 82%,55% 100%,10% 100%,30% 75%,0 62%,40% 45%,20% 28%);
-}
-.game{display:none;min-height:100vh;background:linear-gradient(90deg,var(--wood2),var(--wood) 280px,#081108 280px,#081108)}
-.topbar{padding:12px 16px;border-bottom:4px solid #000;background:#2a190f;color:var(--paper);display:flex;justify-content:space-between;align-items:center}
-.topbar h1{font-size:22px;letter-spacing:2px;margin:0;color:var(--amber)}
-.layout{display:grid;grid-template-columns:300px 1fr;min-height:calc(100vh - 56px)}
-.sidebar{padding:14px;background:linear-gradient(#402719,#26160f)}
-.sandra-frame{border:5px solid #000;background:#967052;box-shadow:8px 8px 0 #000;padding:8px}
-.sandra-art{height:310px;background:#d6a168;position:relative;overflow:hidden;image-rendering:pixelated}
-.sandra-art .hair{position:absolute;left:82px;top:28px;width:112px;height:110px;background:#f5d15e;border:6px solid #3b220e;border-radius:50% 50% 30% 30%}
-.sandra-art .face{position:absolute;left:98px;top:60px;width:82px;height:92px;background:#f0ba8c;border:5px solid #3b220e;border-radius:35%}
-.sandra-art .bang{position:absolute;left:88px;top:42px;width:104px;height:42px;background:#ffe070;border-bottom:6px solid #3b220e;clip-path:polygon(0 0,100% 0,82% 70%,62% 35%,45% 82%,26% 38%,12% 70%)}
-.sandra-art .eye{position:absolute;top:98px;left:118px;width:10px;height:10px;background:#111;box-shadow:36px 0 #111}
-.sandra-art .mouth{position:absolute;left:128px;top:129px;width:30px;height:8px;background:#b52331}
-.sandra-art .neck{position:absolute;left:124px;top:146px;width:34px;height:34px;background:#e6a980;border-left:5px solid #3b220e;border-right:5px solid #3b220e}
-.sandra-art .body{position:absolute;left:58px;top:172px;width:160px;height:140px;background:#c23b50;border:6px solid #3b220e;clip-path:polygon(22% 0,78% 0,100% 100%,0 100%)}
-.sandra-art .desk{position:absolute;left:0;bottom:0;width:100%;height:48px;background:#4b2c17;border-top:6px solid #1b0d05}
-.sandra-art .phone{position:absolute;left:18px;bottom:48px;width:55px;height:32px;background:#111;border:4px solid #4b4b4b;border-radius:25px 25px 6px 6px}
-.sandra-art .paper{position:absolute;right:20px;bottom:50px;width:62px;height:42px;background:#e9d5a8;border:3px solid #111;transform:rotate(-5deg)}
-.speech{background:#100b08;border:3px solid var(--paper);color:var(--paper);padding:10px;margin-top:12px;line-height:1.35;min-height:96px}
-.main{padding:14px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin-bottom:12px}
-.stat{background:#071207;border:2px solid var(--crt2);padding:8px;box-shadow:4px 4px 0 #000}
-.stat b{display:block;color:var(--amber);font-size:11px}
-.panel{background:#0b110b;border:3px solid var(--crt2);box-shadow:6px 6px 0 #000;margin-bottom:14px;padding:12px}
-.panel h2,.panel h3{margin:0 0 10px;color:var(--amber);letter-spacing:1px}
-.choice-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.face{position:absolute;left:35px;top:35px;width:44px;height:51px;background:#efbd93;border-radius:44% 44% 38% 38%;box-shadow:0 0 0 2px #4b2a20}
+.face:before{content:"";position:absolute;left:10px;top:21px;width:5px;height:5px;background:#1a0e0b;box-shadow:19px 0 #1a0e0b}
+.face:after{content:"";position:absolute;left:15px;top:36px;width:15px;height:4px;background:#b43542;border-radius:5px}
+.blazer{position:absolute;left:18px;right:18px;bottom:-10px;height:58px;background:#a83f53;clip-path:polygon(20% 0,80% 0,100% 100%,0 100%);box-shadow:0 0 0 3px #3b1a1f}
+.speech{font-size:13px;line-height:1.42;color:#f3ddb0}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.metric{border:1px solid var(--line);border-radius:14px;background:#17100d;padding:10px;min-height:58px}
+.metric b{display:block;font-size:10px;color:var(--muted);letter-spacing:.08em;margin-bottom:4px}
+.metric span{font-size:16px;color:var(--cream)}
+.weekcard{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#2b1b15,#16100d);padding:13px;margin-bottom:12px}
+.weektitle{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.weektitle h2{margin:0;color:var(--gold);font-size:17px}
+.weektitle small{color:var(--muted)}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(20,13,10,.95);border-top:1px solid var(--line);backdrop-filter:blur(10px)}
+.tab{border:0;background:transparent;color:#d7b982;padding:8px 2px;font-size:11px}
+.tab.active{color:var(--gold)}
+.selects{display:grid;gap:9px}
 .choice{
-  text-align:left;background:#121912;color:var(--crt);border:2px solid var(--crt2);padding:10px;min-height:75px;
+  width:100%;text-align:left;border:1px solid var(--line);border-radius:14px;background:#17100d;color:var(--cream);
+  padding:12px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;
 }
-.choice.selected{background:#7cff7a;color:#061006;border-color:#fff}
-.choice small{display:block;opacity:.85;margin-top:6px}
-.roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
-.player{border:2px solid #6b7;background:#101610;padding:8px;cursor:pointer}
-.player:hover{border-color:var(--amber)}
-.player .name{color:var(--paper);font-weight:bold}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.big{font-size:17px;padding:12px 18px;background:#2a190f;border:3px solid var(--amber);color:var(--amber);box-shadow:4px 4px 0 #000}
-.newspaper{background:var(--paper);color:#14100b;border:5px solid #000;padding:16px;font-family:Georgia,serif;min-height:180px}
-.newspaper .mast{font-size:26px;font-weight:bold;border-bottom:4px solid #111;margin-bottom:10px}
-.newspaper h2{font-size:24px;margin:6px 0;color:#111}
-.weekdots{display:flex;gap:4px;flex-wrap:wrap}
-.dot{width:24px;height:24px;border:2px solid #476;background:#111;color:#ddd;display:flex;align-items:center;justify-content:center;font-size:12px}
-.dot.win{background:#174d21;color:#d8ffd8}.dot.loss{background:#5b1717;color:#ffd8d8}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:20}
-.modalbox{width:min(520px,92vw);background:#111;border:4px solid var(--amber);box-shadow:10px 10px 0 #000;padding:14px;color:var(--paper)}
-.close{float:right}
+.choice.selected{border-color:var(--gold);background:linear-gradient(180deg,#47301f,#24150f);box-shadow:0 0 0 1px rgba(240,197,106,.35)}
+.choice strong{color:var(--gold)}
+.choice small{display:block;color:#c2a06d;margin-top:3px;font-size:11px;line-height:1.3}
+.delta{font-size:11px;color:var(--green);white-space:nowrap}
+.primary{width:100%;border:0;border-radius:16px;background:linear-gradient(180deg,#f0c56a,#af7437);color:#1a0e08;font-weight:900;padding:14px;margin-top:10px;box-shadow:0 8px 0 #5b341c}
+.primary:active{transform:translateY(3px);box-shadow:0 5px 0 #5b341c}
+.news{
+  background:#ead4a2;color:#17100d;border-radius:14px;border:1px solid #000;padding:14px;font-family:Georgia,serif;
+  box-shadow:0 10px 18px rgba(0,0,0,.25);
+}
+.news .mast{font-weight:900;font-size:20px;border-bottom:3px solid #17100d;margin-bottom:8px;letter-spacing:.04em}
+.news h2{font-size:22px;line-height:1;margin:0 0 8px}
+.news p{font-size:14px;line-height:1.35;margin:7px 0}
+.roster{display:grid;gap:9px}
+.player{border:1px solid var(--line);border-radius:15px;background:#17100d;padding:11px;display:grid;grid-template-columns:1fr auto;gap:8px}
+.player strong{color:var(--gold)}
+.player small{display:block;color:#c8a774;margin-top:3px}
+.schedule{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.gameDot{height:38px;border-radius:11px;border:1px solid var(--line);display:grid;place-items:center;background:#17100d;color:#9f835c;font-size:12px}
+.gameDot.win{background:#17331c;color:#9fffaa;border-color:#477c4e}
+.gameDot.loss{background:#3b1715;color:#ffaaa3;border-color:#87403a}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:30;display:none;align-items:flex-end}
+.sheet{width:100%;max-width:560px;margin:0 auto;background:#20140f;border-radius:22px 22px 0 0;border:1px solid var(--line);padding:16px 14px calc(18px + env(safe-area-inset-bottom))}
+.sheet h2{margin:0 0 8px;color:var(--gold)}
+.sheet p{color:#e1c797;line-height:1.4}
+.row{display:flex;gap:8px}
+.row button{flex:1}
+.secondary{border:1px solid var(--line);background:#17100d;color:var(--cream);border-radius:14px;padding:12px}
+@media (min-width:760px){
+ .app{max-width:1040px;padding-left:18px;padding-right:18px}
+ .desktop{display:grid;grid-template-columns:330px 1fr;gap:14px}
+ .tabs{max-width:560px;left:50%;transform:translateX(-50%);border-radius:20px 20px 0 0}
+ .metrics{grid-template-columns:repeat(6,1fr)}
+ .selects{grid-template-columns:repeat(3,1fr)}
+ .choice{min-height:116px;display:block}
+ .delta{display:block;margin-top:8px}
+}
 </style>
 </head>
 <body>
-<section class="boot" id="start">
-  <div class="title">
-    <h1>COURTSIDE CHAOS</h1>
-    <div class="sub">ROAD TO THE ASSOCIATION · 1983</div>
-    <p>Choose a failing minor league basketball franchise. Keep the lights on. Keep Sandra calm. Chase the dream of The Association.</p>
-    <button class="big" onclick="tone('menu')">START MIDI-STYLE SOUND</button>
-  </div>
-  <div class="teams" id="teamGrid"></div>
-</section>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div><h1>COURTSIDE CHAOS</h1><small>ROAD TO THE ASSOCIATION</small></div>
+      <div class="pill" id="yearPill">1983</div>
+    </div>
+  </header>
 
-<section class="game" id="game">
-  <div class="topbar">
-    <h1 id="clubTitle">COURTSIDE CHAOS</h1>
-    <div id="seasonTitle">1983 · Week 1</div>
-  </div>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="sandra-frame">
-        <div class="sandra-art" id="sandraArt">
-          <div class="hair"></div><div class="face"></div><div class="bang"></div><div class="eye"></div><div class="mouth"></div><div class="neck"></div><div class="body"></div><div class="desk"></div><div class="phone"></div><div class="paper"></div>
+  <main id="start" class="screen active">
+    <section class="hero">
+      <h2 class="titlebig">Minor league basketball is dying.</h2>
+      <p class="copy">Buy a strange franchise, manage weekly disasters, and chase a rumoured invitation to The Association. This rebuild is mobile-first, more Sierra adventure screen than spreadsheet.</p>
+      <button class="primary" onclick="midi('menu')">START FAKE MIDI</button>
+    </section>
+    <section class="teamlist" id="teamList"></section>
+  </main>
+
+  <main id="office" class="screen">
+    <div class="desktop">
+      <section>
+        <div class="hero sandra-card">
+          <div class="portrait"><div class="face"></div><div class="blazer"></div></div>
+          <div>
+            <h2 class="titlebig" style="font-size:20px">Sandra</h2>
+            <p class="speech" id="sandraText">Boss, the creditors called before breakfast. I told them you were scouting tall men at the bus station.</p>
+          </div>
         </div>
-      </div>
-      <div class="speech" id="sandraSpeech">Boss, the phones are already ringing. Mostly creditors.</div>
-    </aside>
-    <main class="main">
-      <div class="stats" id="stats"></div>
-      <div class="panel">
-        <h2 id="matchup">This Week</h2>
-        <div id="homeAwayNote"></div>
-      </div>
-      <div class="panel" id="travelPanel">
-        <h3>TRAVEL</h3>
-        <div class="choice-row" id="travelChoices"></div>
-      </div>
-      <div class="panel">
-        <h3>PROMOTION</h3>
-        <div class="choice-row" id="promoChoices"></div>
-      </div>
-      <div class="panel">
-        <h3>SHORTCUT</h3>
-        <div class="choice-row" id="shortcutChoices"></div>
-      </div>
-      <div class="panel">
-        <h3>ROSTER</h3>
-        <div class="roster" id="roster"></div>
-      </div>
-      <div class="panel">
-        <h3>SCHEDULE</h3>
-        <div class="weekdots" id="schedule"></div>
-      </div>
-      <div class="actions">
-        <button class="big" onclick="advanceWeek()">ADVANCE WEEK</button>
-        <button class="big" onclick="saveGame()">SAVE</button>
-        <button class="big" onclick="loadGame()">LOAD</button>
-        <button class="big" onclick="newSeason()">NEW SEASON</button>
-      </div>
-      <div class="panel">
-        <div class="newspaper" id="paper">
+        <div class="weekcard">
+          <div class="weektitle">
+            <h2 id="matchTitle">Week 1</h2>
+            <small id="homeAway">Home</small>
+          </div>
+          <p class="copy" id="matchCopy">Choose this week's stunt carefully.</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="metrics" id="metrics"></div>
+        <div class="weekcard">
+          <h2 style="color:var(--gold);margin:0 0 10px;font-size:17px">This Week's Decisions</h2>
+          <div id="travelBlock">
+            <p class="copy" style="margin:8px 0">Travel</p>
+            <div class="selects" id="travelChoices"></div>
+          </div>
+          <p class="copy" style="margin:12px 0 8px">Promotion</p>
+          <div class="selects" id="promoChoices"></div>
+          <p class="copy" style="margin:12px 0 8px">Shortcut</p>
+          <div class="selects" id="shortcutChoices"></div>
+          <button class="primary" onclick="advanceWeek()">PLAY WEEK</button>
+        </div>
+        <div class="news" id="paper">
           <div class="mast">SPORTS WEEKLY</div>
-          <h2>MINOR LEAGUE BASKETBALL IS DYING. CAN YOU SAVE IT?</h2>
-          <p>Sandra has sharpened her pencil. The Association remains a rumour.</p>
+          <h2>THE DREAM BEGINS</h2>
+          <p>Sandra says The Association only respects winners, money, and teams that are not under investigation.</p>
         </div>
-      </div>
-    </main>
-  </div>
-</section>
+      </section>
+    </div>
+  </main>
 
-<div class="modal" id="modal" onclick="closeModal(event)">
-  <div class="modalbox" id="modalbox"></div>
+  <main id="rosterScreen" class="screen">
+    <section class="hero">
+      <h2 class="titlebig">Locker Room</h2>
+      <p class="copy">Players have moods, traits and breaking points. Cutting someone saves money, but everyone notices.</p>
+    </section>
+    <section class="roster" id="roster"></section>
+  </main>
+
+  <main id="scheduleScreen" class="screen">
+    <section class="hero">
+      <h2 class="titlebig">Season Board</h2>
+      <p class="copy">Wins and losses should feel like a little scrapbook, not a data table.</p>
+    </section>
+    <section class="weekcard"><div class="schedule" id="schedule"></div></section>
+  </main>
+
+  <main id="historyScreen" class="screen">
+    <section class="hero">
+      <h2 class="titlebig">Franchise Lore</h2>
+      <p class="copy">The good stuff lives here: beer puddles, fishing tournaments, outdoor disasters and heartbreak.</p>
+    </section>
+    <section id="history"></section>
+  </main>
+</div>
+
+<nav class="tabs" id="tabs" style="display:none">
+  <button class="tab active" onclick="show('office',this)">Office</button>
+  <button class="tab" onclick="show('rosterScreen',this)">Players</button>
+  <button class="tab" onclick="show('scheduleScreen',this)">Season</button>
+  <button class="tab" onclick="show('historyScreen',this)">Lore</button>
+</nav>
+
+<div class="modal" id="modal">
+  <div class="sheet" id="sheet"></div>
 </div>
 
 <script>
 const teams=[
- {name:"Fresno Flamingos",city:"Fresno",class:"logo-flamingos",cash:85000,fan:72,prestige:11,note:"Pink uniforms. Loose defence. Fans expect nonsense."},
- {name:"Boise Bats",city:"Boise",class:"logo-bats",cash:115000,fan:45,prestige:7,note:"Cheap rent, tiny crowds, surprisingly angry mascot."},
- {name:"Amarillo Armadillos",city:"Amarillo",class:"logo-armadillos",cash:96000,fan:64,prestige:9,note:"Blue collar grit. Players keep asking where Amarillo is."},
- {name:"Spokane Sasquatches",city:"Spokane",class:"logo-sasquatches",cash:90000,fan:69,prestige:10,note:"Huge home edge. Nobody can confirm the mascot is a person."},
- {name:"Reno Rhinestones",city:"Reno",class:"logo-rhinestones",cash:125000,fan:74,prestige:12,note:"Casino cash. Chemistry problems. Questionable sponsors."},
- {name:"Duluth Lumberjacks",city:"Duluth",class:"logo-lumberjacks",cash:88000,fan:76,prestige:8,note:"Brutal winters. Loyal fans. Musky fishing ruins everything."},
- {name:"Dayton Disco Balls",city:"Dayton",class:"logo-disco",cash:78000,fan:82,prestige:5,note:"League embarrassment. Attendance kings."},
- {name:"Tucson Tornadoes",city:"Tucson",class:"logo-tornadoes",cash:91000,fan:60,prestige:9,note:"Fast pace, hot gym, low patience."}
+ {name:"Fresno Flamingos",crest:"flamingo",cash:85000,fan:72,prestige:11,note:"Party crowds, weak defence, constant arena nonsense."},
+ {name:"Boise Bats",crest:"bats",cash:115000,fan:45,prestige:7,note:"Tiny fanbase, cheap operations, furious mascot."},
+ {name:"Amarillo Armadillos",crest:"armadillos",cash:96000,fan:64,prestige:9,note:"Tough team. Players complain about the location."},
+ {name:"Spokane Sasquatches",crest:"sasquatches",cash:90000,fan:69,prestige:10,note:"Great home court. Mascot identity legally unclear."},
+ {name:"Reno Rhinestones",crest:"rhinestones",cash:125000,fan:74,prestige:12,note:"Casino money, sponsor drama, nightlife distractions."},
+ {name:"Duluth Lumberjacks",crest:"lumberjacks",cash:88000,fan:76,prestige:8,note:"Brutal winters. Musky fishing kills attendance."},
+ {name:"Dayton Disco Balls",crest:"disco",cash:78000,fan:82,prestige:5,note:"League embarrassment. Unbelievable crowds."},
+ {name:"Tucson Tornadoes",crest:"tornadoes",cash:91000,fan:60,prestige:9,note:"Fast team, hot gym, impatient fans."}
 ];
-
-const names=["Ricky Malone","Bobby Buckets","Tiny McGee","Calvin Steam","Vince Velvet","Duke Laramie","Marty Glass","Skip Bonanza","Leonard Moon","Eddie Caboose","Frankie Neon","Cliff Rumble"];
-const traits=["Refuses Cheap Travel","Fan Favourite","Gym Rat","Party Animal","Gambler","Injury Prone","Locker Room Lawyer","Local Hero","Former Pro","Bad Knees","Huge Ego","Silent Assassin"];
-const positions=["PG","SG","SF","PF","C"];
+const first=["Ricky","Bobby","Tiny","Calvin","Vince","Duke","Marty","Skip","Leonard","Eddie","Frankie","Cliff"];
+const last=["Malone","Buckets","McGee","Steam","Velvet","Laramie","Glass","Bonanza","Moon","Caboose","Neon","Rumble"];
+const traits=["Refuses cheap travel","Fan favourite","Gym rat","Party animal","Gambler","Injury prone","Locker room lawyer","Local hero","Former pro","Bad knees","Huge ego","Silent assassin"];
+const pos=["PG","SG","SF","PF","C"];
 let game=null;
 
-function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+const choices={
+ travel:[
+  {name:"Charter Flight",cash:-9000,sat:8,win:5,txt:"Professional. Expensive. Players stop muttering."},
+  {name:"Team Bus",cash:-2600,sat:-2,win:0,txt:"Acceptable misery with cup holders."},
+  {name:"Greyhound",cash:2500,sat:-11,win:-3,txt:"Cheap, public, spiritually damaging."}
+ ],
+ promo:[
+  {name:"Beer Night",cash:8000,sat:-1,susp:2,txt:"Big crowd. Sticky floor. Poor decisions."},
+  {name:"Disco Night",cash:5600,sat:2,susp:0,txt:"A mirror ball and questionable rhythm."},
+  {name:"Wrestling Halftime",cash:9000,sat:0,susp:3,txt:"The crowd loves fake violence."},
+  {name:"Family Matinee",cash:3500,sat:4,susp:-1,txt:"Respectable. Almost suspiciously wholesome."}
+ ],
+ shortcut:[
+  {name:"None",cash:0,sat:2,susp:-1,txt:"A clean week. Sandra writes it down."},
+  {name:"Budget Motel",cash:2200,sat:-5,susp:0,txt:"Two beds. Twelve players. One bathroom."},
+  {name:"Cheap Supplements",cash:0,sat:-2,susp:8,win:5,txt:"The label says 'mostly vitamins'."},
+  {name:"Skip Practice",cash:1200,sat:-3,susp:0,win:-4,txt:"Fresh legs, rusty jump shots."}
+ ]
+};
+function q(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
-function buildTeams(){
- document.getElementById("teamGrid").innerHTML=teams.map((t,i)=>`
- <div class="team-card" onclick="startGame(${i})">
-   <div class="team-art ${t.class}"></div>
-   <div class="team-name">${t.name}</div>
-   <div class="team-note">${t.note}</div>
- </div>`).join("");
+function money(n){return "$"+Math.round(n).toLocaleString()}
+function buildStart(){
+ document.getElementById("teamList").innerHTML=teams.map((t,i)=>`
+  <button class="teamcard" onclick="startGame(${i})">
+    <div class="crest ${t.crest}"><i></i></div>
+    <div><div class="teamname">${t.name}</div><div class="teammeta">${t.note}</div></div>
+  </button>`).join("");
 }
 function makeRoster(){
- return names.map((n,i)=>({name:n,pos:positions[i%5],overall:rand(55,91),ent:rand(20,99),ego:rand(10,95),loyalty:rand(15,95),sat:rand(45,88),trait:traits[i%traits.length],salary:rand(4,18)*1000}));
+ return first.map((f,i)=>({name:f+" "+last[i],pos:pos[i%5],ovr:q(56,91),ent:q(20,99),ego:q(10,95),loyal:q(15,95),sat:q(45,88),trait:traits[i],salary:q(4,18)*1000}));
 }
 function startGame(i){
  const t=teams[i];
- game={team:t,year:1983,week:1,w:0,l:0,cash:t.cash,fan:t.fan,prestige:t.prestige,suspicion:5,satisfaction:66,history:[],schedule:[],roster:makeRoster(),picks:{travel:null,promo:null,shortcut:null},home:Math.random()>.45};
- document.getElementById("start").style.display="none";
- document.getElementById("game").style.display="block";
- tone("menu"); render();
+ game={team:t,year:1983,week:1,w:0,l:0,cash:t.cash,fan:t.fan,prestige:t.prestige,suspicion:5,satisfaction:66,home:Math.random()>.45,picks:{},roster:makeRoster(),schedule:[],history:[]};
+ document.getElementById("start").classList.remove("active");
+ document.getElementById("office").classList.add("active");
+ document.getElementById("tabs").style.display="grid";
+ midi("menu"); render();
 }
-const choices={
- travel:[
-  ["Charter Flight",-9000,7,4,"Expensive, civilised, suspiciously professional."],
-  ["Team Bus",-2600,-2,0,"Normal minor league misery."],
-  ["Greyhound",2500,-11,-2,"Very cheap. Deeply humiliating."]
- ],
- promo:[
-  ["Beer Night",8000,-1,1,"Great cash, sticky floors."],
-  ["Disco Night",5500,2,0,"Mirror ball magic."],
-  ["Wrestling Halftime",9000,0,2,"Crowds love it. Officials do not."],
-  ["Family Matinee",3500,4,1,"Clean, wholesome, barely profitable."]
- ],
- shortcut:[
-  ["None",0,2,1,"A rare moment of dignity."],
-  ["Budget Motel",2200,-5,-1,"Two beds. Twelve players."],
-  ["Cheap Supplements",0,-2,8,"The bottle says vitamins."],
-  ["Skip Practice",1200,-3,-3,"Rested legs. Rusty jumpers."]
- ]
-};
-function render(){
- document.getElementById("clubTitle").textContent=game.team.name;
- document.getElementById("seasonTitle").textContent=`${game.year} · Week ${game.week}`;
- document.getElementById("stats").innerHTML=[
-  ["RECORD",`${game.w}-${game.l}`],["CASH",`$${game.cash.toLocaleString()}`],["FANS",game.fan],["SATISFACTION",game.satisfaction],["SUSPICION",game.suspicion],["PRESTIGE",game.prestige]
- ].map(s=>`<div class="stat"><b>${s[0]}</b>${s[1]}</div>`).join("");
- const opp=teams[(game.week+teams.indexOf(game.team)+1)%teams.length].name;
- document.getElementById("matchup").textContent=`Week ${game.week}: ${game.home?opp+" @ "+game.team.name:game.team.name+" @ "+opp}`;
- document.getElementById("homeAwayNote").innerHTML=game.home?"Home game. No travel required. Sandra has booked a local radio spot.":"Away game. Choose how badly you want the players to suffer.";
- document.getElementById("travelPanel").style.display=game.home?"none":"block";
- renderChoices("travelChoices","travel");
- renderChoices("promoChoices","promo");
- renderChoices("shortcutChoices","shortcut");
- document.getElementById("roster").innerHTML=game.roster.map((p,i)=>`<div class="player" onclick="showPlayer(${i})"><div class="name">${p.name}</div>${p.pos} · OVR ${p.overall}<br>SAT ${p.sat} · ${p.trait}</div>`).join("");
- document.getElementById("schedule").innerHTML=Array.from({length:24},(_,i)=>{
-   const r=game.schedule[i]; return `<div class="dot ${r==='W'?'win':r==='L'?'loss':''}">${r?r:i+1}</div>`;
- }).join("");
-}
-function renderChoices(id,type){
- document.getElementById(id).innerHTML=choices[type].map(c=>`<button class="choice ${game.picks[type]===c[0]?'selected':''}" onclick="selectChoice('${type}','${c[0]}')"><b>${c[0]}</b><small>${c[4]}</small></button>`).join("");
-}
-function selectChoice(type,val){game.picks[type]=val;tone("click");render();}
-function chosen(type){return choices[type].find(c=>c[0]===game.picks[type])||choices[type][0]}
-function advanceWeek(){
- if(!game.home && !game.picks.travel) game.picks.travel="Team Bus";
- if(!game.picks.promo) game.picks.promo="Family Matinee";
- if(!game.picks.shortcut) game.picks.shortcut="None";
- let story=[], cash=0, sat=0, susp=0, prestige=0, winBonus=0, attend=game.fan*70+rand(-500,500);
- if(!game.home){let c=chosen("travel");cash+=c[1];sat+=c[2];winBonus+=c[3];story.push(`Travel: ${c[0]}.`);}
- let p=chosen("promo");cash+=p[1];sat+=p[2];susp+=p[3];attend+=p[1]/8;story.push(`Promotion: ${p[0]}.`);
- let s=chosen("shortcut");cash+=s[1];sat+=s[2];susp+=s[3];winBonus+=s[3]>3?5:s[3];story.push(`Shortcut: ${s[0]}.`);
- const ev=randomEvent(); cash+=ev.cash||0; sat+=ev.sat||0; susp+=ev.susp||0; prestige+=ev.prestige||0; attend+=ev.att||0; winBonus+=ev.win||0; story.push(ev.text);
- const talent=game.roster.reduce((a,b)=>a+b.overall,0)/game.roster.length;
- const chemistry=(game.satisfaction+game.roster.reduce((a,b)=>a+b.sat,0)/game.roster.length)/2;
- const chance=clamp(42+(talent-70)*0.8+(chemistry-60)*0.35+winBonus,10,88);
- const won=Math.random()*100<chance;
- if(won){game.w++;game.schedule.push("W");prestige+=2;cash+=rand(9000,18000);story.push("Your boys win. Sandra permits herself a small smile.");tone("win");}
- else{game.l++;game.schedule.push("L");prestige-=1;cash+=rand(3000,11000);sat-=2;story.push("Loss. The newspaper calls it 'character building', which is never good.");tone("loss");}
- game.cash+=Math.round(cash);
- game.satisfaction=clamp(game.satisfaction+sat,0,100);
- game.suspicion=clamp(game.suspicion+susp,0,100);
- game.prestige=clamp(game.prestige+prestige,0,100);
- game.fan=clamp(Math.round(game.fan+(won?2:-1)+(p[0].includes("Beer")?1:0)),5,100);
- game.roster.forEach(pl=>{pl.sat=clamp(pl.sat+sat+rand(-2,2)+(won?2:-2),0,100)});
- const headline=won?`${game.team.name.toUpperCase()} SURVIVE CHAOS`:`${game.team.name.toUpperCase()} FALL APART LATE`;
- document.getElementById("paper").innerHTML=`<div class="mast">${game.team.city.toUpperCase()} DAILY</div><h2>${headline}</h2><p><b>Attendance:</b> ${Math.max(900,Math.round(attend)).toLocaleString()}</p><p>${story.join(" ")}</p><p><b>Sandra:</b> "${sandraLine(won,ev)}"</p>`;
- document.getElementById("sandraSpeech").textContent=sandraLine(won,ev);
- game.history.push({year:game.year,week:game.week,headline,story});
- game.week++;
- if(game.week>24){game.year++;game.week=1;game.schedule=[]; game.prestige+= game.w>game.l?5:0; game.w=0;game.l=0; document.getElementById("paper").innerHTML+=`<p><b>Season rolls over.</b> The Association remains interested in teams that can win without being indicted.</p>`;}
- game.home=Math.random()>.45;
- game.picks={travel:null,promo:null,shortcut:null};
- if(game.cash<0){document.getElementById("paper").innerHTML+=`<h2>BANKRUPTCY WARNING</h2><p>The bank owns more of the franchise than you do.</p>`}
+function show(id,btn){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+ btn.classList.add("active");
  render();
 }
-function randomEvent(){
- const events=[
-  {text:"Duluth's musky fishing classic drags half the town to the lake.",att:-1800,cash:-2500},
-  {text:"The arena is double-booked with a monster truck rally. Game staff mark the free throw line with chalk.",att:900,sat:-3,prestige:1},
-  {text:"A scout from The Association is seen eating a hot dog in Section C.",prestige:4,att:700},
-  {text:"The roof leaks above the visiting bench. Technically, home advantage.",win:3,susp:1},
-  {text:"Sandra finds a sponsor: a tuxedo rental shop with no questions asked.",cash:6500,prestige:1},
-  {text:"Your mascot starts a radio feud with the mayor.",att:600,susp:2},
-  {text:"A local newspaper calls your offence 'jazz with elbows'.",prestige:2},
-  {text:"The visiting team bus gets lost behind a bowling alley.",win:6,susp:1},
-  {text:"A beer spill near the baseline causes three turnovers and one lawsuit.",cash:-3000,sat:-1,susp:3},
-  {text:"A player threatens to leave unless travel improves.",sat:-6}
- ];
- return events[rand(0,events.length-1)];
+function render(){
+ if(!game)return;
+ document.getElementById("yearPill").textContent=game.year+" · W"+game.week;
+ document.getElementById("metrics").innerHTML=[
+  ["Record",game.w+"-"+game.l],["Cash",money(game.cash)],["Fans",game.fan],["Mood",game.satisfaction],["Heat",game.suspicion],["Prestige",game.prestige]
+ ].map(m=>`<div class="metric"><b>${m[0]}</b><span>${m[1]}</span></div>`).join("");
+ const opp=teams[(game.week+teams.indexOf(game.team)+2)%teams.length].name;
+ document.getElementById("matchTitle").textContent=game.home?`${opp} at ${game.team.name}`:`${game.team.name} at ${opp}`;
+ document.getElementById("homeAway").textContent=game.home?"HOME GAME":"AWAY GAME";
+ document.getElementById("matchCopy").textContent=game.home?"No travel this week. More room for bad promotional decisions.":"Away game. Travel choice matters. Your stars are watching.";
+ document.getElementById("travelBlock").style.display=game.home?"none":"block";
+ renderChoice("travelChoices","travel");renderChoice("promoChoices","promo");renderChoice("shortcutChoices","shortcut");
+ document.getElementById("roster").innerHTML=game.roster.map((p,i)=>`<button class="player" onclick="playerSheet(${i})"><div><strong>${p.name}</strong><small>${p.pos} · OVR ${p.ovr} · ${p.trait}</small></div><div>${p.sat}</div></button>`).join("");
+ document.getElementById("schedule").innerHTML=Array.from({length:24},(_,i)=>`<div class="gameDot ${game.schedule[i]==='W'?'win':game.schedule[i]==='L'?'loss':''}">${game.schedule[i]||i+1}</div>`).join("");
+ document.getElementById("history").innerHTML=game.history.length?game.history.slice().reverse().map(h=>`<div class="weekcard"><h2 style="color:var(--gold);font-size:16px;margin:0 0 6px">${h.title}</h2><p class="copy">${h.copy}</p></div>`).join(""):`<div class="weekcard"><p class="copy">No lore yet. Give Sandra a week.</p></div>`;
 }
-function sandraLine(won,ev){
- const lines=won?[
-  "Boss, winning makes almost everything legal in retrospect.",
-  "I don't know what we are building here, but people are buying tickets.",
-  "The Association scout did not leave early. That feels important."
- ]:[
-  "Boss, I have hidden the morning paper from the locker room.",
-  "The players are asking whether losing counts as cardio.",
-  "We may need fewer stunts and more rebounds."
- ];
- if(game.suspicion>60) return "Boss, the league office called twice. I pretended to be a wrong number.";
- if(game.satisfaction<30) return "Boss, the locker room is using words I cannot repeat on company stationery.";
- return lines[rand(0,lines.length-1)];
+function renderChoice(id,type){
+ document.getElementById(id).innerHTML=choices[type].map(c=>`<button class="choice ${game.picks[type]===c.name?'selected':''}" onclick="pick('${type}','${c.name}')"><span><strong>${c.name}</strong><small>${c.txt}</small></span><span class="delta">${c.cash?money(c.cash):""}</span></button>`).join("");
 }
-function showPlayer(i){
+function pick(type,name){game.picks[type]=name;midi("click");render();}
+function get(type){return choices[type].find(c=>c.name===game.picks[type])||choices[type][0]}
+function eventRoll(){
+ const e=[
+  {title:"Musky Classic Crushes Gate",copy:"Half the town chose fishing over basketball. Sandra says this is why Duluth cannot have nice things.",cash:-3500,att:-1900,sat:0,susp:0,win:0},
+  {title:"Arena Double Booked",copy:"The game shares floor time with a farm equipment expo. A tractor sits near the baseline all night.",cash:1200,att:800,sat:-2,susp:2,win:-2},
+  {title:"Outdoor Court Emergency",copy:"A scheduling error forces the game outside. Fans love it. Shooters hate the wind.",cash:5000,att:1200,sat:-3,susp:2,win:-3},
+  {title:"Association Scout Spotted",copy:"A well-dressed stranger eats popcorn in silence. Everyone pretends not to notice.",cash:0,att:500,sat:1,susp:0,prestige:5,win:1},
+  {title:"Beer Puddle Incident",copy:"A baseline spill leads to a late turnover and a lawsuit from a man named Big Ron.",cash:-2500,att:600,sat:-1,susp:3,win:-4},
+  {title:"Sandra Finds Sponsor",copy:"A tuxedo rental shop offers cash for naming rights to the injury report.",cash:7000,att:0,sat:1,susp:1,prestige:1,win:0},
+  {title:"Star Gets Restless",copy:"Your best player says The Pros have better hotels and fewer raccoons.",cash:0,att:0,sat:-6,susp:0,win:-1},
+  {title:"Mascot Becomes Folk Hero",copy:"A local TV interview goes strangely well. Merch tables empty by halftime.",cash:6500,att:900,sat:2,susp:1,prestige:2,win:1}
+ ];
+ return e[q(0,e.length-1)];
+}
+function advanceWeek(){
+ if(!game.home && !game.picks.travel)game.picks.travel="Team Bus";
+ if(!game.picks.promo)game.picks.promo="Family Matinee";
+ if(!game.picks.shortcut)game.picks.shortcut="None";
+ let cash=0,sat=0,susp=0,prestige=0,win=0,copy=[];
+ if(!game.home){const t=get("travel");cash+=t.cash;sat+=t.sat;win+=(t.win||0);copy.push("Travel: "+t.name+".");}
+ const p=get("promo");cash+=p.cash;sat+=p.sat;susp+=(p.susp||0);copy.push("Promotion: "+p.name+".");
+ const s=get("shortcut");cash+=s.cash;sat+=s.sat;susp+=(s.susp||0);win+=(s.win||0);copy.push("Shortcut: "+s.name+".");
+ const ev=eventRoll();cash+=(ev.cash||0);sat+=(ev.sat||0);susp+=(ev.susp||0);prestige+=(ev.prestige||0);win+=(ev.win||0);
+ const avg=game.roster.reduce((a,b)=>a+b.ovr,0)/game.roster.length;
+ const mood=(game.satisfaction+game.roster.reduce((a,b)=>a+b.sat,0)/game.roster.length)/2;
+ const chance=clamp(43+(avg-70)*.75+(mood-60)*.3+win,12,86);
+ const won=Math.random()*100<chance;
+ if(won){game.w++;game.schedule.push("W");cash+=q(9000,18000);prestige+=2;midi("win")}else{game.l++;game.schedule.push("L");cash+=q(3000,10000);sat-=2;prestige-=1;midi("loss")}
+ game.cash+=cash;game.satisfaction=clamp(game.satisfaction+sat,0,100);game.suspicion=clamp(game.suspicion+susp,0,100);game.prestige=clamp(game.prestige+prestige,0,100);game.fan=clamp(game.fan+(won?2:-1)+(p.name==="Beer Night"?1:0),1,100);
+ game.roster.forEach(r=>r.sat=clamp(r.sat+sat+(won?2:-2)+q(-2,2),0,100));
+ const headline=won?`${game.team.name} WIN THROUGH THE NOISE`:`${game.team.name} LOSE ANOTHER WEIRD ONE`;
+ const result=won?"WIN":"LOSS";
+ const sandra=sandraLine(won);
+ const body=`${copy.join(" ")} ${ev.copy}`;
+ document.getElementById("paper").innerHTML=`<div class="mast">${game.team.name.split(" ").slice(-1)[0].toUpperCase()} GAZETTE</div><h2>${headline}</h2><p><b>${result}</b> · Cash ${money(cash)} · Event: ${ev.title}</p><p>${body}</p><p><b>Sandra:</b> "${sandra}"</p>`;
+ document.getElementById("sandraText").textContent=sandra;
+ game.history.push({title:`${game.year} Week ${game.week}: ${ev.title}`,copy:`${result}. ${body}`});
+ game.week++;game.home=Math.random()>.45;game.picks={};
+ if(game.week>24){game.year++;game.week=1;game.schedule=[];game.w=0;game.l=0;game.history.push({title:`${game.year-1} Season Ends`,copy:"The Association remains a rumour, but Sandra keeps a folder labelled 'When They Finally Call'."})}
+ render();
+}
+function sandraLine(won){
+ if(game.suspicion>65)return "Boss, men in suits are asking about our vitamin budget.";
+ if(game.satisfaction<30)return "Boss, the locker room is quiet. That is worse than shouting.";
+ const good=["Boss, I don't know why this works, but people keep buying tickets.","The Association scout stayed until the final buzzer. I noticed.","We are becoming either respectable or infamous. Both sell."];
+ const bad=["Boss, I have hidden the sports page under the invoices.","The players asked if heartbreak counts as overtime pay.","We may need fewer stunts and more rebounds."];
+ return (won?good:bad)[q(0,2)];
+}
+function playerSheet(i){
  const p=game.roster[i];
- document.getElementById("modalbox").innerHTML=`<button class="close" onclick="hideModal()">X</button><h2>${p.name}</h2><p>${p.pos} · Overall ${p.overall}</p><p>Entertainment ${p.ent}<br>Ego ${p.ego}<br>Loyalty ${p.loyalty}<br>Satisfaction ${p.sat}<br>Salary $${p.salary.toLocaleString()}</p><p><b>Trait:</b> ${p.trait}</p><button class="big" onclick="releasePlayer(${i})">RELEASE PLAYER</button>`;
+ document.getElementById("sheet").innerHTML=`<h2>${p.name}</h2><p>${p.pos} · Overall ${p.ovr}<br>Entertainment ${p.ent}<br>Ego ${p.ego}<br>Loyalty ${p.loyal}<br>Satisfaction ${p.sat}<br>Salary ${money(p.salary)}</p><p><b>Trait:</b> ${p.trait}</p><div class="row"><button class="secondary" onclick="closeSheet()">Keep</button><button class="primary" style="margin:0" onclick="releasePlayer(${i})">Release</button></div>`;
  document.getElementById("modal").style.display="flex";
 }
 function releasePlayer(i){
- const p=game.roster[i]; game.roster.splice(i,1); game.cash+=Math.round(p.salary/2); game.satisfaction=clamp(game.satisfaction-8,0,100);
- game.roster.forEach(x=>x.sat=clamp(x.sat-5,0,100));
- document.getElementById("paper").innerHTML=`<div class="mast">SPORTS WEEKLY</div><h2>${p.name.toUpperCase()} RELEASED</h2><p>The move saves cash but chills the locker room.</p><p><b>Sandra:</b> "Boss, the players are calling this place a meat market."</p>`;
- hideModal(); render();
+ const p=game.roster[i];game.roster.splice(i,1);game.cash+=p.salary/2;game.satisfaction=clamp(game.satisfaction-8,0,100);game.roster.forEach(r=>r.sat=clamp(r.sat-5,0,100));
+ closeSheet();document.getElementById("paper").innerHTML=`<div class="mast">SPORTS WEEKLY</div><h2>${p.name.toUpperCase()} CUT LOOSE</h2><p>The move saves money but chills the locker room.</p><p><b>Sandra:</b> "Boss, the players are calling this place a meat market."</p>`;render();
 }
-function hideModal(){document.getElementById("modal").style.display="none"}
-function closeModal(e){if(e.target.id==="modal")hideModal()}
-function saveGame(){localStorage.setItem("courtsideChaosV02",JSON.stringify(game));document.getElementById("sandraSpeech").textContent="Saved, boss. I put it in the metal filing cabinet."}
-function loadGame(){const s=localStorage.getItem("courtsideChaosV02"); if(s){game=JSON.parse(s);document.getElementById("start").style.display="none";document.getElementById("game").style.display="block";render();}}
-function newSeason(){location.reload()}
-let audioCtx=null;
-function tone(type){
- try{
-  audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
-  const notes=type==="win"?[523,659,784]:type==="loss"?[392,330,262]:type==="menu"?[262,330,392,523]:[440];
-  notes.forEach((n,i)=>setTimeout(()=>{let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type="square";o.frequency.value=n;g.gain.value=.04;o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.12)},i*130));
- }catch(e){}
-}
-buildTeams();
+function closeSheet(){document.getElementById("modal").style.display="none"}
+document.getElementById("modal").onclick=e=>{if(e.target.id==="modal")closeSheet()}
+let ctx=null;function midi(type){try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();let notes=type==="win"?[523,659,784,1046]:type==="loss"?[392,330,262]:type==="menu"?[262,330,392,523,392,330]:[440];notes.forEach((n,i)=>setTimeout(()=>{let o=ctx.createOscillator(),g=ctx.createGain();o.type="square";o.frequency.value=n;g.gain.value=.035;o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.11)},i*105))}catch(e){}}
+buildStart();
 </script>
 </body>
 </html>
