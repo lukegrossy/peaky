@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ABA: Bush League Basketball</title>
+<style>
+  :root{
+    --bg:#19120e;--wood:#3a2116;--wood2:#5a3424;--cream:#f6e6c8;--paper:#f8edd2;--ink:#2b1a12;
+    --red:#c83d2b;--gold:#f1b84b;--teal:#2f9a91;--green:#5f9d5e;--dark:#0d1720;--muted:#a88b68;
+  }
+  *{box-sizing:border-box} body{margin:0;font-family:Georgia,'Times New Roman',serif;background:radial-gradient(circle at top,#4a2b1d,#170f0b 62%);color:var(--cream);min-height:100vh}
+  button,input,select{font:inherit} button{cursor:pointer;border:0;border-radius:10px;padding:10px 13px;background:var(--gold);color:#24120b;font-weight:800;box-shadow:0 4px 0 #8c5a1f} button:hover{filter:brightness(1.05);transform:translateY(-1px)} button.secondary{background:#f7dfaa}.danger{background:var(--red);color:white}.ghost{background:#2b211b;color:var(--cream);box-shadow:0 4px 0 #120c08;border:1px solid #6f4a32}
+  .wrap{max-width:1220px;margin:0 auto;padding:22px}.hide{display:none!important}
+  .title{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:16px}.brand h1{margin:0;font-size:34px;letter-spacing:1px;text-transform:uppercase;text-shadow:3px 3px 0 #000}.brand p{margin:5px 0 0;color:#d6bd91}.badge{display:inline-flex;border:1px solid #8f6540;background:#2a1a12;border-radius:999px;padding:7px 10px;color:#ffd98d;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+  .screen{background:linear-gradient(135deg,rgba(90,52,36,.94),rgba(36,21,15,.95));border:2px solid #8e5d35;border-radius:22px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.45), inset 0 0 45px rgba(255,190,80,.08)}
+  .start-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.card{background:rgba(19,13,10,.72);border:1px solid #6e4a31;border-radius:18px;padding:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}.paper{background:var(--paper);color:var(--ink);border:2px solid #b58b51;box-shadow:6px 6px 0 rgba(0,0,0,.25);font-family:'Courier New',monospace}.paper h3{margin-top:0;text-transform:uppercase}.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;max-height:590px;overflow:auto;padding-right:4px}.team{background:#28180f;border:1px solid #6b452e;border-radius:14px;padding:12px;transition:.15s}.team:hover,.team.selected{outline:3px solid var(--gold);background:#382216}.team .mascot{font-size:34px;float:right}.team h3{margin:0 0 6px}.team p{margin:0;color:#d5b98b;font-size:13px}.team small{display:block;color:#f4c368;margin-top:8px;font-weight:800}
+  .dash{display:grid;grid-template-columns:275px 1fr 300px;gap:16px}.office{position:relative;min-height:590px;background:linear-gradient(#2a1911,#140d0a);border-radius:20px;border:2px solid #7a4e30;overflow:hidden}.office:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 2px,transparent 2px 72px)}.secretary{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:210px;text-align:center}.hair{width:92px;height:58px;background:#3b1c13;border-radius:55px 55px 20px 20px;margin:0 auto -18px}.face{width:74px;height:78px;background:#f0b98d;border-radius:48% 48% 45% 45%;margin:0 auto;border:3px solid #2b160e;position:relative}.face:before,.face:after{content:"";position:absolute;top:32px;width:7px;height:7px;background:#20100b;border-radius:50%}.face:before{left:21px}.face:after{right:21px}.mouth{position:absolute;left:28px;top:54px;width:18px;height:6px;border-bottom:3px solid #7b2e2a;border-radius:50%}.body{width:132px;height:138px;background:linear-gradient(90deg,#d83f45,#9d1f2b);margin:-4px auto 0;border-radius:38px 38px 0 0;border:3px solid #2b160e}.bubble{position:absolute;top:20px;left:18px;right:18px;background:var(--paper);color:var(--ink);border-radius:16px;padding:14px;font-family:'Courier New',monospace;font-weight:800;box-shadow:5px 5px 0 rgba(0,0,0,.25)}.bubble:after{content:"";position:absolute;bottom:-12px;left:70px;border:12px solid transparent;border-top-color:var(--paper);border-bottom:0}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.stat{background:#120d0a;border:1px solid #67452e;border-radius:14px;padding:12px}.stat span{display:block;color:#caa879;font-size:12px;text-transform:uppercase;letter-spacing:.08em}.stat b{display:block;font-size:24px;margin-top:4px;color:#ffe0a1}.stat.bad b{color:#ff8b70}.stat.good b{color:#8ee08c}
+  .desk{display:grid;grid-template-columns:1fr 1fr;gap:14px}.section h2{margin:0 0 10px;text-transform:uppercase;letter-spacing:.05em}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{background:#1d130e;border:1px solid #67452e;border-radius:14px;padding:12px}.choice h4{margin:0 0 6px;color:#ffd47c}.choice p{margin:0 0 10px;color:#d9bf92;font-size:13px}.log{height:260px;overflow:auto;font-family:'Courier New',monospace;font-size:13px;line-height:1.35}.news-head{font-size:22px;text-transform:uppercase;border-bottom:3px double #24120b;padding-bottom:8px;margin-bottom:10px}.schedule li{margin-bottom:8px}.roster{display:grid;gap:8px}.player{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:#1d130e;border:1px solid #67452e;border-radius:12px;padding:10px}.bars{font-size:12px;color:#d7bd8b}.modal{position:fixed;inset:0;background:rgba(0,0,0,.68);display:flex;align-items:center;justify-content:center;padding:18px;z-index:10}.modal .box{max-width:720px;width:100%;background:var(--paper);color:var(--ink);border-radius:18px;border:3px solid #8b5a32;padding:18px;box-shadow:12px 12px 0 rgba(0,0,0,.45)}
+  @media(max-width:980px){.start-grid,.dash,.desk{grid-template-columns:1fr}.office{min-height:360px}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title"><div class="brand"><h1>ABA: Bush League Basketball</h1><p>1983. Bad buses. Worse mascots. One dream: profit.</p></div><div class="badge">Carmen-style front office</div></div>
+
+  <section id="start" class="screen">
+    <div class="start-grid">
+      <div>
+        <h2>Choose your doomed franchise</h2>
+        <p style="color:#d6bd91">None of these teams existed. Most of them should not exist now.</p>
+        <div id="teamList" class="teams"></div>
+      </div>
+      <div class="card paper">
+        <h3>Commissioner's Welcome</h3>
+        <p>You have purchased a barely solvent basketball team in an unstable league full of hustlers, showmen, bad accountants and players who refuse to share motel rooms with mascots.</p>
+        <p>Your job is to survive 20 weeks by balancing wins, crowds, gimmicks, payroll, morale and suspicion.</p>
+        <p><b>Win condition:</b> finish the season with positive cash and owner patience above zero. Glory is optional. Solvency is not.</p>
+        <button id="startBtn" style="width:100%;margin-top:10px">Start Season</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="game" class="screen hide">
+    <div class="dash">
+      <aside class="office">
+        <div id="secretaryBubble" class="bubble">Boss, pick a city first. Preferably one with electricity.</div>
+        <div class="secretary"><div class="hair"></div><div class="face"><div class="mouth"></div></div><div class="body"></div></div>
+      </aside>
+
+      <main>
+        <div class="stats">
+          <div class="stat"><span>Week</span><b id="week">1/20</b></div>
+          <div class="stat good"><span>Cash</span><b id="cash">$0</b></div>
+          <div class="stat"><span>Record</span><b id="record">0-0</b></div>
+          <div class="stat bad"><span>Suspicion</span><b id="suspicion">0</b></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><span>Fans</span><b id="fans">0</b></div>
+          <div class="stat"><span>Morale</span><b id="morale">0</b></div>
+          <div class="stat"><span>Reputation</span><b id="reputation">0</b></div>
+          <div class="stat bad"><span>Patience</span><b id="patience">0</b></div>
+        </div>
+        <div class="desk">
+          <div class="section card">
+            <h2 id="teamName">Team</h2>
+            <p id="nextGame"></p>
+            <h3>Weekly Decisions</h3>
+            <div class="actions" id="actions"></div>
+          </div>
+          <div class="section card paper">
+            <div class="news-head" id="headline">Local paper loading...</div>
+            <div id="newsBody">The ink is still wet.</div>
+          </div>
+        </div>
+        <div class="desk" style="margin-top:14px">
+          <div class="section card"><h2>Roster</h2><div id="roster" class="roster"></div></div>
+          <div class="section card"><h2>Office Log</h2><div id="log" class="log"></div></div>
+        </div>
+      </main>
+
+      <aside class="card">
+        <h2>Control Panel</h2>
+        <p id="identity" style="color:#d6bd91"></p>
+        <button onclick="playWeek()" style="width:100%;margin-bottom:10px">Play This Week</button>
+        <button class="secondary" onclick="saveGame()" style="width:100%;margin-bottom:10px">Save Game</button>
+        <button class="ghost" onclick="loadGame()" style="width:100%;margin-bottom:10px">Load Game</button>
+        <button class="danger" onclick="resetGame()" style="width:100%">New Season</button>
+        <hr style="border-color:#67452e;margin:18px 0">
+        <h3>Season Schedule</h3>
+        <ol id="schedule" class="schedule"></ol>
+      </aside>
+    </div>
+  </section>
+</div>
+
+<div id="modal" class="modal hide"><div class="box"><h2 id="modalTitle"></h2><div id="modalText"></div><button onclick="closeModal()">Back to the office</button></div></div>
+
+<script>
+const teams=[
+ {city:'Fresno',name:'Flamongos',mascot:'🦩',tag:'Their mascot is a flamingo who cannot spell flamingo.',cash:115000,fans:2600},
+ {city:'Boise',name:'Bats',mascot:'🦇',tag:'All home games start suspiciously after sunset.',cash:105000,fans:2300},
+ {city:'Toledo',name:'Tornado Accountants',mascot:'🌪️',tag:'They do taxes at halftime. Poorly.',cash:130000,fans:1800},
+ {city:'Wichita',name:'Wigglers',mascot:'🪱',tag:'An earthworm-based franchise nobody asked for.',cash:95000,fans:3100},
+ {city:'Reno',name:'Coupon Kings',mascot:'✂️',tag:'Every ticket comes with expired mayo vouchers.',cash:90000,fans:3400},
+ {city:'Akron',name:'Rubber Wizards',mascot:'🧙',tag:'Mystical. Bouncy. Slightly flammable.',cash:120000,fans:2200},
+ {city:'Spokane',name:'Panic',mascot:'🚨',tag:'Their defensive scheme is mostly screaming.',cash:100000,fans:2800},
+ {city:'Lubbock',name:'Lawn Darts',mascot:'🎯',tag:'Banned in four counties, beloved in one.',cash:98000,fans:3000},
+ {city:'Des Moines',name:'Denim Demons',mascot:'👖',tag:'The only team with official game jeans.',cash:110000,fans:2500},
+ {city:'Gary',name:'Goblinaires',mascot:'👺',tag:'Not goblins. Not millionaires. A legal compromise.',cash:85000,fans:3600},
+ {city:'Duluth',name:'Dock Otters',mascot:'🦦',tag:'Wet court. Slippery brand strategy.',cash:125000,fans:1900},
+ {city:'Bakersfield',name:'Briefcases',mascot:'💼',tag:'A corporate team with no corporation attached.',cash:140000,fans:1600}
+];
+const opponents=['Omaha Disco Horses','Knoxville Hot Tubs','Tulsa Tax Dodgers','Mobile Meatballs','Tacoma Fog Machine','Canton Legal Eagles','El Paso Space Possums','Fort Wayne Ferrets','Syracuse Sideburns','Little Rock Rhinestones','Peoria Pantsuits','Dayton Mystery Van'];
+const first=['Darnell','Rickey','Moses','Chip','Bingo','Luther','Vince','Skip','Alonzo','Terry','Reggie','Walt'];
+const nick=['Sky','Coupons','The Buffet','Downtown','No Socks','Velvet','Bus Pass','The Accountant','Tiny Thunder','Loose Change','Jukebox','Half Court'];
+const last=['Jackson','McGraw','Fontaine','Rivers','Bell','Stallone','Pickett','Hawkins','Malone','Rizzo','Washington','Doyle'];
+let s={}; let selected=0; let weekly={travel:null,promo:null,shortcut:null};
+function money(n){return '$'+Math.round(n).toLocaleString()}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+function initTeams(){teamList.innerHTML=teams.map((t,i)=>`<div class="team ${i===selected?'selected':''}" onclick="selectTeam(${i})"><div class="mascot">${t.mascot}</div><h3>${t.city} ${t.name}</h3><p>${t.tag}</p><small>Cash ${money(t.cash)} · Fans ${t.fans.toLocaleString()}</small></div>`).join('')}
+function selectTeam(i){selected=i;initTeams()}
+function newRoster(){return Array.from({length:8},(_,i)=>({name:`${rand(first)} "${rand(nick)}" ${rand(last)}`,tal:50+Math.floor(Math.random()*45),show:35+Math.floor(Math.random()*60),ego:20+Math.floor(Math.random()*75),mor:55+Math.floor(Math.random()*35),inj:false}))}
+function startGame(){const t=teams[selected];s={team:t,week:1,cash:t.cash,fans:t.fans,wins:0,losses:0,morale:62,reputation:45,suspicion:8,patience:75,roster:newRoster(),log:[`Bought the ${t.city} ${t.name}. Accountant immediately resigned.`],schedule:Array.from({length:20},()=>rand(opponents)),over:false}; start.classList.add('hide'); game.classList.remove('hide'); render();}
+startBtn.onclick=startGame; initTeams();
+const actionData={
+ travel:[['Greyhound Public Bus',-3500,-9,4,'Players share seats with civilians and one emotional chicken.'],['Second-hand Team Bus',-9000,-2,0,'It has brakes. Mostly.'],['Charter Plane',-22000,8,-3,'The boys feel professional. The bank disagrees.']],
+ promo:[['Free Hot Dog Night',-6000,900,2,'A classic. The mustard situation is unresolved.'],['Disco Dunk Contest',-9000,1300,5,'Local DJs, wide collars, no insurance questions.'],['Mascot Wrestling Mayor',-3000,1800,13,'The mayor signed a waiver nobody can find.'],['Coupon Funeral',-1500,700,6,'Fans bury expired coupons at center court.']],
+ shortcut:[['Play It Straight',0,0,-5,'Boring. Legal. Weirdly effective sometimes.'],['Mystery Supplements Guy',-4500,5,16,'He says they are vitamins. His van says otherwise.'],['Underworld Sponsorship',12000,-4,18,'Cash arrives in a bowling bag.'],['Skip Payroll Until Monday',9000,-12,9,'Players notice. They always notice.']]
+};
+function renderActions(){actions.innerHTML=['travel','promo','shortcut'].map(cat=>`<div><h3>${cat.toUpperCase()}</h3>${actionData[cat].map((a,i)=>`<div class="choice"><h4>${a[0]}</h4><p>${a[4]}</p><button onclick="choose('${cat}',${i})">Choose</button></div>`).join('')}</div>`).join('')}
+function choose(cat,i){weekly[cat]=i; log(`Selected ${actionData[cat][i][0]}.`); render()}
+function render(){week.textContent=s.week+'/20';cash.textContent=money(s.cash);record.textContent=s.wins+'-'+s.losses;suspicion.textContent=s.suspicion;fans.textContent=s.fans.toLocaleString();morale.textContent=s.morale;reputation.textContent=s.reputation;patience.textContent=s.patience;teamName.textContent=s.team.city+' '+s.team.name+' '+s.team.mascot;identity.textContent=`General Manager of the ${s.team.city} ${s.team.name}. Try not to get indicted.`;nextGame.textContent=`Next game: ${s.schedule[s.week-1] || 'Season complete'} at home.`;secretaryBubble.textContent=secretaryLine();renderActions();renderRoster();renderLog();renderSchedule();}
+function renderRoster(){roster.innerHTML=s.roster.map(p=>`<div class="player"><div><b>${p.name}</b><div class="bars">Talent ${p.tal} · Show ${p.show} · Ego ${p.ego} · Morale ${p.mor}${p.inj?' · INJURED':''}</div></div><span>${p.show>80?'🌟':p.ego>75?'😤':'🏀'}</span></div>`).join('')}
+function renderLog(){document.getElementById('log').innerHTML=s.log.slice(-40).map(x=>'• '+x).join('<br>')}
+function renderSchedule(){schedule.innerHTML=s.schedule.map((o,i)=>`<li>${i+1}. ${o}${i+1<s.week?' ✅':''}${i+1===s.week?' ←':''}</li>`).join('')}
+function log(x){s.log.push(x);renderLog()}
+function secretaryLine(){let lines=[`Boss, the ${s.team.mascot} costume smells like old popcorn.`,`The league office called. I said you were in a meeting with a banker. You are welcome.`,`Ticket sales are ${s.fans>4000?'strangely healthy':'making me nervous'}, boss.`,`Please stop calling Greyhound a strategic aviation partner.`]; if(s.suspicion>65) lines.push('Boss, men in beige suits are asking about our vitamins.'); if(s.cash<30000) lines.push('The bank used the phrase “deeply unserious.”'); return rand(lines)}
+function playWeek(){if(s.over)return; if(weekly.travel===null||weekly.promo===null||weekly.shortcut===null){show('Not so fast','Pick one Travel, one Promotion, and one Shortcut before playing the week.');return}
+ let t=actionData.travel[weekly.travel],p=actionData.promo[weekly.promo],c=actionData.shortcut[weekly.shortcut]; s.cash+=t[1]+p[1]+c[1]; s.morale+=t[2]+c[2]; s.suspicion+=t[3]+p[3]+c[3]; s.reputation+=Math.floor(p[2]/250)+Math.floor(Math.random()*7)-2; s.fans+=p[2]+Math.floor((s.reputation-45)*20)+Math.floor(Math.random()*500)-150;
+ let talent=s.roster.reduce((a,b)=>a+b.tal+(b.inj?-25:0),0)/s.roster.length; let show=s.roster.reduce((a,b)=>a+b.show,0)/s.roster.length; let odds=talent*.55+s.morale*.25+show*.12+Math.random()*35-s.suspicion*.08; let opp=62+Math.random()*35; let won=odds>opp; won?s.wins++:s.losses++; let gate=s.fans*(won?9.5:7.5)+show*55; s.cash+=gate; s.morale+=won?7:-6; s.reputation+=won?5:-3; s.patience+=won?3:-6; randomEvent(won); s.morale=clamp(Math.round(s.morale),0,100);s.reputation=clamp(Math.round(s.reputation),0,100);s.suspicion=clamp(Math.round(s.suspicion),0,100);s.patience=clamp(Math.round(s.patience),0,100);s.fans=clamp(Math.round(s.fans),250,12000);
+ headline.textContent=won?`${s.team.name} win, mascot survives another night`:`${s.team.name} lose; crowd still oddly entertained`; newsBody.innerHTML=`Final: ${s.team.city} ${won?'defeated':'fell to'} ${s.schedule[s.week-1]}. Gate receipts: <b>${money(gate)}</b>. The promotion was <b>${p[0]}</b>. Travel was <b>${t[0]}</b>. Shortcut: <b>${c[0]}</b>.`;
+ log(`${won?'Won':'Lost'} against ${s.schedule[s.week-1]}. Gate ${money(gate)}.`); weekly={travel:null,promo:null,shortcut:null}; s.week++; if(s.week>20||s.cash<-20000||s.patience<=0||s.suspicion>=100) endSeason(); render();}
+function randomEvent(won){let events=[()=>{let p=rand(s.roster);p.mor-=10;s.cash-=3000;log(`${p.name} missed warmups after boarding the wrong Greyhound.`)},()=>{s.cash+=8000;s.suspicion+=8;log('A nightclub owner bought 400 tickets in cash and winked too much.')},()=>{s.fans+=600;s.reputation+=6;log('Mascot became a local TV sensation after falling through the scorer’s table.')},()=>{let p=rand(s.roster);p.inj=Math.random()<.35;log(`${p.name} challenged a fan to HORSE. ${p.inj?'Pulled something dramatic.':'Won free nachos.'}`)},()=>{s.cash-=5000;s.patience-=4;log('Arena roof leaked onto the visiting coach. Lawsuit pending-ish.')}]; rand(events)();}
+function endSeason(){s.over=true;let good=s.cash>0&&s.patience>0&&s.suspicion<100;show(good?'Season Saved':'Season Imploded',`<p><b>Final record:</b> ${s.wins}-${s.losses}</p><p><b>Cash:</b> ${money(s.cash)}</p><p><b>Suspicion:</b> ${s.suspicion}</p><p>${good?'You survived the ABA circus. The owner calls you a visionary. The accountant calls you a danger to arithmetic.':'The league, bank, owner or possibly the mascot has ended your season.'}</p>`)}
+function show(t,html){modalTitle.textContent=t;modalText.innerHTML=html;modal.classList.remove('hide')} function closeModal(){modal.classList.add('hide')}
+function saveGame(){localStorage.setItem('abaBushLeague',JSON.stringify(s));show('Saved','The season has been shoved into a filing cabinet.')} function loadGame(){let data=localStorage.getItem('abaBushLeague');if(!data)return show('No save found','The filing cabinet is empty except for hotdog invoices.');s=JSON.parse(data);start.classList.add('hide');game.classList.remove('hide');render()} function resetGame(){localStorage.removeItem('abaBushLeague');location.reload()}
+</script>
+</body>
+</html>
