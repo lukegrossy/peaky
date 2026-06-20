@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Courtside Chaos - Story Prototype</title>
+<style>
+body{margin:0;background:#0f0906;color:#f3dfb0;font-family:Georgia,serif}
+.splash{height:100vh;background:url('https://placehold.co/900x1600') center/cover no-repeat;position:relative}
+.overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15),rgba(0,0,0,.55))}
+.start{position:absolute;left:50%;transform:translateX(-50%);bottom:8vh;padding:18px 36px;border-radius:18px;border:2px solid #d9a441;background:#24120a;color:#f3dfb0;font-size:28px;font-weight:bold}
+.screen{display:none;padding:20px;max-width:700px;margin:auto}
+.card{background:#24120a;border:1px solid #a06a2f;border-radius:18px;padding:18px;margin:12px 0}
+.choice{display:block;width:100%;margin:10px 0;padding:14px;border-radius:12px;background:#1a0d08;color:#f3dfb0;border:1px solid #8a5a29}
+h1,h2{color:#e2b34c}
+.paper{background:#ead4a0;color:#1a120b;padding:16px;border-radius:12px}
+</style>
+</head>
+<body>
+
+<div id="splash" class="splash">
+<div class="overlay"></div>
+<button class="start" onclick="startGame()">START GAME</button>
+</div>
+
+<div id="game" class="screen">
+<div class="paper">
+<h2>DULUTH DAILY DISPATCH</h2>
+<b>LUMBERJACKS LOSE MONEY AGAIN</b>
+</div>
+
+<div class="card">
+<h1>Owner's Office</h1>
+<p><b>Sandra:</b></p>
+<p>Boss.<br><br>
+Randy won't ride the RoadRunner bus.<br>
+Woody injured himself opening a supermarket.<br>
+We lost money again.<br>
+And someone from The Association may be in Section 119.<br><br>
+Fairly normal week.</p>
+</div>
+
+<div class="card">
+<h2>Travel</h2>
+<button class="choice" onclick="pick('RoadRunner Bus')">RoadRunner Coach Lines</button>
+<button class="choice" onclick="pick('Charter Bus')">Charter Bus</button>
+</div>
+
+<div class="card">
+<h2>Promotion</h2>
+<button class="choice" onclick="pick('Beer Night')">Beer Night</button>
+<button class="choice" onclick="pick('Family Night')">Family Night</button>
+</div>
+
+<div class="card">
+<h2>Special</h2>
+<button class="choice" onclick="pick('Sandra')">Let Sandra Handle It</button>
+<button class="choice" onclick="pick('Vitamins')">Questionable Vitamins</button>
+<button class="choice" onclick="pick('Randy')">Randy Press Conference</button>
+</div>
+
+<button class="start" style="position:static;transform:none;width:100%" onclick="advance()">ADVANCE WEEK</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+let picks=[];
+function startGame(){
+document.getElementById('splash').style.display='none';
+document.getElementById('game').style.display='block';
+}
+function pick(v){picks.push(v);}
+function advance(){
+const events=[
+"Beer Night was a success. Woody fell off a trampoline.",
+"Randy insulted RoadRunner Coach Lines on live radio.",
+"The Scout stayed for the entire game.",
+"Leo James Gross quietly solved a crisis nobody noticed.",
+"Woody is listed as day-to-day. Again."
+];
+document.getElementById('result').innerHTML=
+'<div class="paper"><h2>DULUTH DAILY DISPATCH</h2><b>'+events[Math.floor(Math.random()*events.length)]+'</b><p>Sandra: Boss, I am updating the incident files.</p></div>';
+picks=[];
+}
+</script>
+</body>
+</html>
